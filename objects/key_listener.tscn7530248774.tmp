@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dibdjsg7er80y"]
+
+[ext_resource type="Texture2D" uid="uid://bdr3ktriq2tlo" path="res://art/arrows.webp" id="1_2k37l"]
+[ext_resource type="Script" uid="uid://ceakv187mxyep" path="res://objects/key_listener.gd" id="2_cs670"]
+
+[node name="KeyListener" type="Sprite2D"]
+texture = ExtResource("1_2k37l")
+hframes = 4
+vframes = 3
+script = ExtResource("2_cs670")

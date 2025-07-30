@@ -1,0 +1,83 @@
+[gd_scene load_steps=7 format=3 uid="uid://dc5m4825xujlk"]
+
+[ext_resource type="Script" uid="uid://syvwyy6vc812" path="res://objects/falling_key.gd" id="2_ax6ko"]
+[ext_resource type="Texture2D" uid="uid://qrmpi4atl2sd" path="res://art/arrow2.png" id="2_uuajb"]
+[ext_resource type="FontFile" uid="uid://dve3sf8u41wa3" path="res://fonts/poppins.black.ttf" id="3_j0jm1"]
+
+[sub_resource type="Animation" id="Animation_j0jm1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_uuajb"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8qmlx"]
+_data = {
+&"RESET": SubResource("Animation_j0jm1"),
+&"fade_in": SubResource("Animation_uuajb")
+}
+
+[node name="FallingKey" type="Sprite2D"]
+hframes = 4
+vframes = 3
+script = ExtResource("2_ax6ko")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="DestroyTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8qmlx")
+}
+autoplay = "fade_in"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_uuajb")
+offset = Vector2(0, -42)
+
+[node name="KeyIndicator" type="RichTextLabel" parent="."]
+offset_left = -79.0
+offset_top = -78.0
+offset_right = 82.0
+offset_bottom = 76.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_j0jm1")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "D"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="timeout" from="DestroyTimer" to="." method="_on_destroy_timer_timeout"]

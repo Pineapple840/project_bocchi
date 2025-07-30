@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dc5m4825xujlk"]
+
+[ext_resource type="Texture2D" uid="uid://bdr3ktriq2tlo" path="res://art/arrows.webp" id="1_rfl2t"]
+[ext_resource type="Script" uid="uid://syvwyy6vc812" path="res://objects/falling_key.gd" id="2_ax6ko"]
+
+[node name="FallingKey" type="Sprite2D"]
+texture = ExtResource("1_rfl2t")
+hframes = 4
+vframes = 3
+frame = 4
+script = ExtResource("2_ax6ko")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="DestroyTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="DestroyTimer" to="." method="_on_destroy_timer_timeout"]

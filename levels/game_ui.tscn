@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8wlbdc1vyqox"]
+
+[ext_resource type="Script" uid="uid://lup2t14m6f4d" path="res://levels/game_ui.gd" id="1_451jp"]
+
+[node name="GameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_451jp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 256.0
+offset_bottom = 78.0
+color = Color(0, 0, 0, 0.392157)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+offset_left = 920.0
+offset_top = 570.0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.392157)
+
+[node name="ScoreLabel" type="RichTextLabel" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_right = 301.0
+offset_bottom = 64.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 41
+text = "0 pts"
+scroll_active = false
+
+[node name="ComboLabel" type="RichTextLabel" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 852.0
+offset_top = 584.0
+offset_right = 1153.0
+offset_bottom = 648.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 41
+text = "Combo: 0x"
+scroll_active = false
+horizontal_alignment = 2

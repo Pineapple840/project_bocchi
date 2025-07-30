@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://dc5m4825xujlk"]
+
+[ext_resource type="Script" uid="uid://syvwyy6vc812" path="res://objects/falling_key.gd" id="2_ax6ko"]
+[ext_resource type="Texture2D" uid="uid://ndoe4qjq7kat" path="res://art/arrow.png" id="3_j0jm1"]
+
+[sub_resource type="Animation" id="Animation_j0jm1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_uuajb"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8qmlx"]
+_data = {
+&"RESET": SubResource("Animation_j0jm1"),
+&"fade_in": SubResource("Animation_uuajb")
+}
+
+[node name="FallingKey" type="Sprite2D"]
+hframes = 4
+vframes = 3
+script = ExtResource("2_ax6ko")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="DestroyTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8qmlx")
+}
+autoplay = "fade_in"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_j0jm1")
+offset = Vector2(0, -42)
+
+[connection signal="timeout" from="DestroyTimer" to="." method="_on_destroy_timer_timeout"]

@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://bd357ugyjnm13"]
+
+[ext_resource type="VideoStream" uid="uid://c5t8h44ui3xlt" path="res://videos/Kessoku-Band-＂I-Will-Never-Forget_＂-Performance-｜-BOCCHI-THE-ROCK_.ogv" id="1_d65c1"]
+[ext_resource type="PackedScene" uid="uid://dibdjsg7er80y" path="res://objects/key_listener.tscn" id="1_qc6i3"]
+[ext_resource type="PackedScene" uid="uid://b8wlbdc1vyqox" path="res://levels/game_ui.tscn" id="2_sklrn"]
+[ext_resource type="PackedScene" uid="uid://jrkj6g6e17em" path="res://objects/level_editor.tscn" id="4_n0b0m"]
+
+[node name="GameLevel" type="Node2D"]
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+stream = ExtResource("1_d65c1")
+autoplay = true
+expand = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="KeyListener3" parent="." instance=ExtResource("1_qc6i3")]
+position = Vector2(33, 379)
+frame = 2
+key_name = "button_J"
+
+[node name="KeyListener4" parent="." instance=ExtResource("1_qc6i3")]
+position = Vector2(-46, 399)
+frame = 1
+key_name = "button_F"
+
+[node name="KeyListener5" parent="." instance=ExtResource("1_qc6i3")]
+position = Vector2(103, 394)
+frame = 3
+key_name = "button_K"
+
+[node name="KeyListener6" parent="." instance=ExtResource("1_qc6i3")]
+position = Vector2(-125, 396)
+key_name = "button_D"
+
+[node name="GameUI" parent="." instance=ExtResource("2_sklrn")]
+
+[node name="LevelEditor" parent="." instance=ExtResource("4_n0b0m")]
