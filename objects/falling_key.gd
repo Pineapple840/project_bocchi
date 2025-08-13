@@ -10,7 +10,7 @@ var init_y_pos: float = -400
 
 var half_pass = false
 var has_passed: bool = false
-var pass_threshold = 70
+var pass_threshold = 30
 
 func _init():
 	set_process(false)

@@ -41,7 +41,7 @@ func _process(delta):
 			var key_to_pop = falling_key_queue.pop_front()
 			
 			var distance_from_pass = abs(key_to_pop.pass_threshold - key_to_pop.global_position.y)
-			print("Note hit at " + str(key_to_pop.global_rotation_degrees) + " degrees")
+			print("Note hit at " + str(key_to_pop.rotating_arrow.global_rotation_degrees) + " degrees")
 			
 			if abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 8:
 				Signals.IncrementScore.emit(300)
@@ -57,20 +57,20 @@ func _process(delta):
 				print("Great")
 				score_text_value = "100"
 				
-			elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 32:
+			elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 24:
 				Signals.IncrementScore.emit(100)
 				Signals.IncrementCombo.emit()
 				key_to_pop.queue_free()
 				print("Ok")
 				score_text_value = "50"
 				
-			elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 48:
+			elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 30:
 				Signals.ResetCombo.emit()
 				key_to_pop.queue_free()
 				print("Miss")
 				score_text_value = "X"
 				
-			elif key_to_pop.rotating_arrow.global_rotation_degrees > 48:
+			elif key_to_pop.rotating_arrow.global_rotation_degrees > 30:
 				Signals.ResetCombo.emit()
 				key_to_pop.queue_free()
 				print("Miss")
