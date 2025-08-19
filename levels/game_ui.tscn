@@ -18,11 +18,10 @@ offset_right = 256.0
 offset_bottom = 78.0
 color = Color(0, 0, 0, 0.392157)
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
-offset_left = 920.0
-offset_top = 570.0
-offset_right = 1152.0
-offset_bottom = 648.0
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer"]
+offset_left = 815.0
+offset_right = 1153.0
+offset_bottom = 85.0
 color = Color(0, 0, 0, 0.392157)
 
 [node name="ScoreLabel" type="RichTextLabel" parent="CanvasLayer"]
@@ -36,12 +35,24 @@ scroll_active = false
 
 [node name="ComboLabel" type="RichTextLabel" parent="CanvasLayer"]
 unique_name_in_owner = true
-offset_left = 852.0
-offset_top = 584.0
-offset_right = 1153.0
-offset_bottom = 648.0
+offset_left = 845.0
+offset_top = 518.0
+offset_right = 1146.0
+offset_bottom = 582.0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/normal_font_size = 41
-text = "Combo: 0x"
+text = "0x"
+scroll_active = false
+horizontal_alignment = 2
+
+[node name="AccuracyLabel" type="RichTextLabel" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 810.0
+offset_top = 11.0
+offset_right = 1111.0
+offset_bottom = 75.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 41
+text = "Accuracy: 0%"
 scroll_active = false
 horizontal_alignment = 2

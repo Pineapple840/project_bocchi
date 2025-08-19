@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ohkaa571vlsc"]
+
+[ext_resource type="Texture2D" uid="uid://cg5mmvx7fghv5" path="res://art/bocchi_blob_happy.png" id="1_uvmxr"]
+
+[node name="BocchiBlob" type="Sprite2D"]
+texture = ExtResource("1_uvmxr")

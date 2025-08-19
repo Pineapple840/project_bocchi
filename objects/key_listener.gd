@@ -30,6 +30,7 @@ func _process(delta):
 			var key_to_pop = falling_key_queue.pop_front()
 			
 			score_text_value = "X"
+			Signals.IncrementScore.emit(0)
 			Signals.ResetCombo.emit()
 			
 			var st_inst = score_text.instantiate()
@@ -38,58 +39,54 @@ func _process(delta):
 			st_inst.global_position = key_to_pop.global_position
 			
 		if Input.is_action_just_pressed(key_name):
-			var key_to_pop = falling_key_queue.pop_front()
+			if falling_key_queue.size() > 0:
+				var key_to_pop = falling_key_queue.pop_front()
 			
-			var distance_from_pass = abs(key_to_pop.pass_threshold - key_to_pop.global_position.y)
-			print("Note hit at " + str(key_to_pop.rotating_arrow.global_rotation_degrees) + " degrees")
-			
-			if abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 8:
-				Signals.IncrementScore.emit(300)
-				Signals.IncrementCombo.emit()
-				key_to_pop.queue_free()
-				print("Perfect")
-				score_text_value = "300"
+				var distance_from_pass = abs(key_to_pop.pass_threshold - key_to_pop.global_position.y)
+				print("Note hit at " + str(key_to_pop.rotating_arrow.global_rotation_degrees) + " degrees")
 				
-			elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 16:
-				Signals.IncrementScore.emit(100)
-				Signals.IncrementCombo.emit()
-				key_to_pop.queue_free()
-				print("Great")
-				score_text_value = "100"
+				#Perfect hit
+				if abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 8:
+					Signals.IncrementScore.emit(300)
+					Signals.IncrementCombo.emit()
+					key_to_pop.queue_free()
+					score_text_value = "300"
+					
+				#Great hit
+				elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 16:
+					Signals.IncrementScore.emit(100)
+					Signals.IncrementCombo.emit()
+					key_to_pop.queue_free()
+					score_text_value = "100"
 				
-			elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 24:
-				Signals.IncrementScore.emit(100)
-				Signals.IncrementCombo.emit()
-				key_to_pop.queue_free()
-				print("Ok")
-				score_text_value = "50"
-				
-			elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 30:
-				Signals.ResetCombo.emit()
-				key_to_pop.queue_free()
-				print("Miss")
-				score_text_value = "X"
-				
-			elif key_to_pop.rotating_arrow.global_rotation_degrees > 30:
-				Signals.ResetCombo.emit()
-				key_to_pop.queue_free()
-				print("Miss")
-				score_text_value = "X"
-				
-			else:
-				print("Too early")
-				falling_key_queue.push_front(key_to_pop)
-				
-			var st_inst = score_text.instantiate()
-			get_tree().get_root().call_deferred("add_child", st_inst)
-			st_inst.SetTextInfo(score_text_value)
-			st_inst.global_position = key_to_pop.global_position
+				#OK hit
+				elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 24:
+					Signals.IncrementScore.emit(100)
+					Signals.IncrementCombo.emit()
+					key_to_pop.queue_free()
+					score_text_value = "50"
+					
+				#Miss
+				elif key_to_pop.rotating_arrow.global_rotation_degrees > -50:
+					Signals.ResetCombo.emit()
+					key_to_pop.queue_free()
+					score_text_value = "X"
+					Signals.IncrementScore.emit(0)
+					
+				#Nothing happens if the note is out of range (>50 degrees early). Pushed back onto the queue
+				else:
+					falling_key_queue.push_front(key_to_pop)
+					
+				var st_inst = score_text.instantiate()
+				get_tree().get_root().call_deferred("add_child", st_inst)
+				st_inst.SetTextInfo(score_text_value)
+				st_inst.global_position = key_to_pop.global_position
 
 
-func CreateFallingKey(button_name: String, x_pos: float, y_pos: float):
+func CreateFallingKey(button_name: String, x_pos: float, y_pos: float, is_multi_note: bool):
 	if button_name == key_name:
 		var fk_inst = falling_key.instantiate()
 		get_tree().get_root().call_deferred("add_child", fk_inst)
-		fk_inst.Setup(position.x, int(frame), x_pos, y_pos)
+		fk_inst.Setup(position.x, int(frame), x_pos, y_pos, is_multi_note)
 		
 		falling_key_queue.push_back(fk_inst)
