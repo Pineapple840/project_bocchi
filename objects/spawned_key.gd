@@ -10,10 +10,17 @@ var moving_to_ghost: bool = false
 
 #true if falling key has passed the allowed input frame
 
-var half_pass = false
+var button_name: String
+
+var half_pass: bool = false
 var has_passed: bool = false
-var pass_threshold = 30
-var note_type = "normal"
+var pass_threshold: int = 30
+
+var note_type: String = "normal"
+
+var ghost_offset_position: Vector2
+var original_position: Vector2
+var passed_ghost: bool
 
 var bocchi_colour = Color(1, 0.6, 0.8, 1)
 var nijika_colour = Color(1, 1, 0.4, 1)
@@ -36,31 +43,43 @@ func _process(delta):
 		has_passed = true
 		visible = false
 		
+		
 	if moving_to_ghost:
-		position += Vector2(0, 214.67 * delta)
+		position += Vector2(0, 245.33 * delta)
+		
+	if position.distance_to(ghost_offset_position + original_position) < 5 and note_type == "hold":
+		passed_ghost = true
+		
+	if position.distance_to(ghost_offset_position + original_position) > 50 and note_type == "hold" and passed_ghost:
+		Signals.KillGhost.emit(button_name)
+		queue_free()
 		
 	
 
-func Setup(target_x: float, target_frame: int, x_pos: float, y_pos: float, is_multi_note: bool, is_hold_note: bool, ghost_pos: Vector2):
+func Setup(key_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is_hold_note: bool, ghost_pos: Vector2):
 	
 	global_position = Vector2(x_pos, y_pos)
+	original_position = global_position
 	$Sprite2D.global_rotation_degrees = -175
 	
 	$Sprite2D.modulate = Color(1, 1, 1, arrow_opacity)
 	
+	ghost_offset_position = ghost_pos
 	
 	
-	match target_frame:
-		0:
+	button_name = key_name
+	
+	match key_name:
+		"button_D":
 			$KeyIndicator.add_theme_color_override("default_color", ryo_colour)
 			$KeyIndicator.text = "[center]" + "D"
-		1:
+		"button_F":
 			$KeyIndicator.add_theme_color_override("default_color", nijika_colour)
 			$KeyIndicator.text = "[center]" + "F"
-		2:
+		"button_J":
 			$KeyIndicator.add_theme_color_override("default_color", kita_colour)
 			$KeyIndicator.text = "[center]" + "J"
-		3:
+		"button_K":
 			$KeyIndicator.add_theme_color_override("default_color", bocchi_colour)
 			$KeyIndicator.text = "[center]" + "K"
 	

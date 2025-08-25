@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cul441guoqmbn"]
+[gd_scene load_steps=6 format=3 uid="uid://cul441guoqmbn"]
 
 [ext_resource type="Script" uid="uid://dgjo6i3feahuc" path="res://objects/hold_ghost_key.gd" id="1_8mjwh"]
 [ext_resource type="FontFile" uid="uid://dve3sf8u41wa3" path="res://fonts/poppins.black.ttf" id="3_ukg5m"]
@@ -18,9 +18,25 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_8mjwh"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8qmlx"]
 _data = {
-&"RESET": SubResource("Animation_j0jm1")
+&"RESET": SubResource("Animation_j0jm1"),
+&"fade_in": SubResource("Animation_8mjwh")
 }
 
 [node name="HoldGhostKey" type="Sprite2D"]

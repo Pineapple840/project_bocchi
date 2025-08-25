@@ -22,22 +22,22 @@ script = ExtResource("2_wtvao")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="KeyListener3" parent="." instance=ExtResource("1_qc6i3")]
-position = Vector2(31, 398)
+visible = false
 frame = 2
 key_name = "button_J"
 
 [node name="KeyListener4" parent="." instance=ExtResource("1_qc6i3")]
-position = Vector2(-46, 399)
+visible = false
 frame = 1
 key_name = "button_F"
 
 [node name="KeyListener5" parent="." instance=ExtResource("1_qc6i3")]
-position = Vector2(103, 394)
+visible = false
 frame = 3
 key_name = "button_K"
 
 [node name="KeyListener6" parent="." instance=ExtResource("1_qc6i3")]
-position = Vector2(-125, 396)
+visible = false
 key_name = "button_D"
 
 [node name="GameUI" parent="." instance=ExtResource("2_sklrn")]

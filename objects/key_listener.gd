@@ -6,6 +6,7 @@ extends Sprite2D
 @export var key_name: String = ""
 
 var falling_key_queue = []
+var ghost_key_queue = []
 
 var pefect_press_threshold: float = 30
 var great_press_threshold: float = 50
@@ -17,11 +18,13 @@ var great_press_score: float = 100
 var good_press_score: float = 50
 var ok_press_score: float = 20
 
-var current_held_note
+var current_held_note: Sprite2D
+var ghost_key_to_pop: Sprite2D
 var hold: bool
 
 func _ready():
 	Signals.CreateFallingKey.connect(CreateFallingKey)
+	Signals.KillGhost.connect(KillGhost)
 
 func _process(delta):
 	
@@ -44,6 +47,7 @@ func _process(delta):
 				get_tree().get_root().call_deferred("add_child", st_inst)
 				st_inst.SetTextInfo(score_text_value)
 				st_inst.global_position = key_to_pop.global_position
+				
 			
 			
 		if Input.is_action_just_pressed(key_name):
@@ -52,15 +56,18 @@ func _process(delta):
 				var key_to_pop = falling_key_queue.pop_front()
 				
 				if key_to_pop != null:
-					if key_to_pop.note_type == "hold":
+					if key_to_pop.note_type == "hold" and key_to_pop.rotating_arrow.global_rotation_degrees > -50:
 						key_to_pop.move_to_ghost()
+						var teleport: float = (((0.006517 * key_to_pop.rotating_arrow.global_rotation_degrees) / 0.65217) * 160) 
+						key_to_pop.position.y += (teleport)
+						key_to_pop.rotating_arrow.visible = false
 						current_held_note = key_to_pop
 						hold = true
 					else:
 						hold = false
 			
 					var distance_from_pass = abs(key_to_pop.pass_threshold - key_to_pop.global_position.y)
-					print("Note hit at " + str(key_to_pop.rotating_arrow.global_rotation_degrees) + " degrees")
+					print("Note" + key_name + " hit at " + str(key_to_pop.rotating_arrow.global_rotation_degrees) + " degrees")
 					
 					#Perfect hit
 					if abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 8:
@@ -88,11 +95,11 @@ func _process(delta):
 						
 					#Miss
 					elif key_to_pop.rotating_arrow.global_rotation_degrees > -50:
+						Signals.IncrementScore.emit(0)
 						Signals.ResetCombo.emit()
 						if key_to_pop.note_type != "hold":
 							key_to_pop.queue_free()
 						score_text_value = "X"
-						Signals.IncrementScore.emit(0)
 						
 					#Nothing happens if the note is out of range (>50 degrees early). Pushed back onto the queue
 					else:
@@ -103,10 +110,41 @@ func _process(delta):
 					st_inst.SetTextInfo(score_text_value)
 					st_inst.global_position = key_to_pop.global_position
 					
-			if Input.is_action_just_released(key_name):
-				if hold and current_held_note != null:
-					print("noce")
-					current_held_note.queue_free()
+		if Input.is_action_just_released(key_name):
+			if hold and current_held_note != null:
+				var distance_from_ghost = current_held_note.position - (current_held_note.original_position + current_held_note.ghost_offset_position)
+				var abs_distance = Vector2(0, 0).distance_to(distance_from_ghost)
+				print("note " + key_name + " released at " + str(distance_from_ghost) + ", abs distance ", str(abs_distance))
+				
+				if abs_distance <= 12:
+					Signals.IncrementScore.emit(300)
+					Signals.IncrementCombo.emit()
+					score_text_value = "300"
+					
+				elif abs_distance <= 24:
+					Signals.IncrementScore.emit(100)
+					Signals.IncrementCombo.emit()
+					score_text_value = "100"
+				
+				elif abs_distance <= 32:
+					Signals.IncrementScore.emit(50)
+					Signals.IncrementCombo.emit()
+					score_text_value = "50"
+				
+				else:
+					Signals.IncrementScore.emit(0)
+					Signals.ResetCombo.emit()
+					score_text_value = "X"
+					
+				current_held_note.queue_free()
+				var st_inst = score_text.instantiate()
+				get_tree().get_root().call_deferred("add_child", st_inst)
+				st_inst.SetTextInfo(score_text_value)
+				st_inst.global_position = current_held_note.global_position
+				
+				if ghost_key_queue.size() > 0:
+					ghost_key_to_pop = ghost_key_queue.pop_front()
+					ghost_key_to_pop.queue_free()
 		
 
 
@@ -114,12 +152,21 @@ func CreateFallingKey(button_name: String, x_pos: float, y_pos: float, is_multi_
 	if button_name == key_name:
 		var fk_inst = falling_key.instantiate()
 		get_tree().get_root().call_deferred("add_child", fk_inst)
-		fk_inst.Setup(position.x, int(frame), x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
+		fk_inst.Setup(key_name, x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
 		
 		if is_hold_note:
 			var hold_ghost_key_inst = hold_ghost_key.instantiate()
 			get_tree().get_root().call_deferred("add_child", hold_ghost_key_inst)
+			
 			ghost_pos = fk_inst.position + ghost_pos
-			hold_ghost_key_inst.Setup(ghost_pos)
+			hold_ghost_key_inst.Setup(key_name, ghost_pos)
+			
+			ghost_key_queue.push_back(hold_ghost_key_inst)
+			
 		
 		falling_key_queue.push_back(fk_inst)
+		
+func KillGhost(button_name: String):
+	if ghost_key_queue.size() > 0 and button_name == key_name:
+		ghost_key_to_pop = ghost_key_queue.pop_front()
+		ghost_key_to_pop.queue_free()

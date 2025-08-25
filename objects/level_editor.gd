@@ -2,7 +2,7 @@ extends Node2D
 
 var current_level_name = "WASURETE_YARANAI"
 
-var video_start_time = 52
+var video_start_time = 50
 
 var level_info = {
 	"WASURETE_YARANAI" = {

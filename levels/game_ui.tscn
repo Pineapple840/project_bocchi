@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8wlbdc1vyqox"]
+[gd_scene load_steps=3 format=3 uid="uid://b8wlbdc1vyqox"]
 
 [ext_resource type="Script" uid="uid://lup2t14m6f4d" path="res://levels/game_ui.gd" id="1_451jp"]
+[ext_resource type="FontFile" uid="uid://dve3sf8u41wa3" path="res://fonts/poppins.black.ttf" id="2_tpbhn"]
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
@@ -14,11 +15,13 @@ script = ExtResource("1_451jp")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
 offset_right = 256.0
 offset_bottom = 78.0
 color = Color(0, 0, 0, 0.392157)
 
 [node name="ColorRect3" type="ColorRect" parent="CanvasLayer"]
+visible = false
 offset_left = 815.0
 offset_right = 1153.0
 offset_bottom = 85.0
@@ -29,6 +32,7 @@ unique_name_in_owner = true
 offset_right = 301.0
 offset_bottom = 64.0
 theme_override_constants/outline_size = 5
+theme_override_fonts/normal_font = ExtResource("2_tpbhn")
 theme_override_font_sizes/normal_font_size = 41
 text = "0 pts"
 scroll_active = false
@@ -40,6 +44,7 @@ offset_top = 518.0
 offset_right = 1146.0
 offset_bottom = 582.0
 theme_override_constants/outline_size = 5
+theme_override_fonts/normal_font = ExtResource("2_tpbhn")
 theme_override_font_sizes/normal_font_size = 41
 text = "0x"
 scroll_active = false
@@ -52,6 +57,7 @@ offset_top = 11.0
 offset_right = 1111.0
 offset_bottom = 75.0
 theme_override_constants/outline_size = 5
+theme_override_fonts/normal_font = ExtResource("2_tpbhn")
 theme_override_font_sizes/normal_font_size = 41
 text = "Accuracy: 0.00%"
 scroll_active = false
