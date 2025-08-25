@@ -2,7 +2,7 @@ extends Node2D
 
 var current_level_name = "WASURETE_YARANAI"
 
-var video_start_time = 0
+var video_start_time = 52
 
 var level_info = {
 	"WASURETE_YARANAI" = {
@@ -52,10 +52,21 @@ var level_info = {
 [113.5, 180, 'J'], [114, 180, 'K'], [114.5, 180, 'K'], [115, 180, 'D'], [115.5, 180, 'D'], [116, 180, 'K'], [116.5, 180, 'K'],
 [117, 180, 'F'], [118, -90, 'J'], [119, -90, 'D'], [120, -90, 'K'],
 [121, 180, 'F'], [122, 180, 'J'], [124, 150, 'F'], [124.5, 150, 'D'],
-[125, -150, 'F'], [125.5, -90, 'J'], [126, -90, 'K'], [127, -30, 'K'], [128.5, 60, 'D'],
+[125, -150, 'F'], [125.5, -90, 'J'], [126, -90, 'K'], [127, -30, 'K'], [128.5, 60, 'D', 1.5], [128.5, -90, 'F', 0.5],
 
-[129.5, -30, 'J'], [130, 0, 'J'], [130.5, 0, 'J'], [131, 0, 'J'], [131.5, 30, 'F'], [132, 0, 'D'], [132.5, -60, 'K'],
-[133.5, 30, 'K'], [134, 30 , 'K'], [134.5, 60, 'J'], [135, 150, 'J'], [135.5, 120, 'F'], [136, 30, 'F'] 
+[129.5, -30, 'J'], [130, 0, 'J'], [130.5, 0, 'J'], [131, 0, 'J'], [131.5, 30, 'F'], [132, 0, 'D'], [132.5, -30, 'F', 1], [132.5, -90, 'K', 1],
+[133.5, 30, 'J'], [134, 30 , 'J'], [134.5, 60, 'F'], [135, 150, 'F'], [135.5, 120, 'D'], [136, 30, 'D'],
+[137.5, 150, 'F'], [138, -150, 'J'], [138.5, -150, 'K'], [139, -110, 'F'], [139.5, -110, 'J'], [140, -70, 'F'], [140.5, -70, 'J'],
+[141, -30, 'F', 0.5], [141, -90, 'J', 0.5], [141, -90, 'K', 0.5], [142, 0, 'K', 1], [142, 90, 'J', 0.5], [142, 90, 'F', 0.5], [143, 0, 'F', 1], [143, -90, 'J', 0.5], [143, -90, 'K', 0.5], [144, 0, 'K', 1], [144, 90, 'J', 0.5], [144, 90, 'F', 0.5], 
+[145, 30, 'D', 1], [145, 0, 'F', 0.5], [147, 30, 'J'], [148, 30, 'F'],
+[150, 90, 'K'], [151, 180, 'J'], [152, 180, 'K'],
+[153, -150, 'D'], [154.5, -150, 'K'], [155, -150, 'K'], [156, -150, 'J'],
+[157, -60, 'K'], [157.5, -60, 'K'], [158, -60, 'K'], [158.5, -30, 'J'] , [159, -60, 'K'],
+[161, -150, 'F', 'N', 'H', 90, 2], [163, 180, 'J', 'N', 'H', 90, 2],
+[165, 180, 'K', 'N', 'H', 90, 2], [167, 180, 'J', 'N', 'H', 90, 2],
+[169, 120, 'K'], [170, 120, 'J'], [171, 90, 'F'], [172, 90, 'D']
+
+ 
    
 ]
 	}
@@ -64,6 +75,7 @@ var level_info = {
 func _ready():
 	
 	Signals.PlayVideoConnected.connect(PlayVideoConnected)
+	Signals.VideoStarted.connect(VideoStarted)
 	
 	var note_list = level_info.get(current_level_name).get("note_list")
 	#var fk_times_arr = str_to_var(fk_times)
@@ -77,6 +89,8 @@ func _ready():
 	var last_y: float = 0
 	var last_beat: float = 1
 	var jump_distance = 80
+	
+	await VideoStarted()
 		
 	var button_name: String = ""
 	for note in note_list:
@@ -99,35 +113,48 @@ func _ready():
 		#if note[0] != 0 and note[0] > video_start_time:
 			
 		#for multi notes
-		var real_delay: float = (note[0] + 4) * seconds_per_beat + offset - 1.375 - time_delay - video_start_time
+		var real_delay: float = (note[0] + 4) * seconds_per_beat + offset - 1.365 - time_delay - video_start_time
 		var time_since_last_beat = note[0] - last_beat
 		
 		var is_multi_note: bool = false
+		var is_hold_note: bool = false
 		
-		if note.size() == 4:
-			time_since_last_beat = note[3]
-			is_multi_note = true
+		if note.size() >= 4:
+			if str(note[3]) != 'N':
+				time_since_last_beat = note[3]
+				is_multi_note = true
+				
 		
 		var x_pos = last_x + jump_for_note * cos((note[1] * PI) / 180) * time_since_last_beat
 		var y_pos = last_y + jump_for_note * sin((note[1] * PI) / 180) * time_since_last_beat
+		
+		var ghost_pos: Vector2 = Vector2(0, 0)
+		
+		if note.size() >= 5:
+			is_hold_note = true
+			ghost_pos = Vector2(note[6] * cos((note[5] * PI / 180)) * jump_for_note, note[6] * sin((note[5]) * PI / 180) * jump_for_note)
+			print(ghost_pos)
 		
 		last_x = x_pos
 		last_y = y_pos
 		last_beat = note[0]
 		if note[0] != 0 and real_delay > 0:
 			
-			SpawnFallingKey(button_name, real_delay, x_pos, y_pos, is_multi_note)
+			SpawnFallingKey(button_name, real_delay, x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
 		
 			
 	
 	
-func SpawnFallingKey(button_name: String, real_delay: float, x_pos: float, y_pos: float, is_multi_note: bool):
+func SpawnFallingKey(button_name: String, real_delay: float, x_pos: float, y_pos: float, is_multi_note: bool, is_hold_note: bool, ghost_pos: Vector2):
 	await get_tree().create_timer(real_delay).timeout
-	Signals.CreateFallingKey.emit(button_name, x_pos, y_pos, is_multi_note)
+	Signals.CreateFallingKey.emit(button_name, x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
 
 func PlayVideo(video_start_time):
 	Signals.PlayVideo.emit(video_start_time)
 	
 func PlayVideoConnected():
 	PlayVideo(video_start_time)
+	
+func VideoStarted():
+	pass
 	

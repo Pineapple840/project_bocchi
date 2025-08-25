@@ -2,9 +2,10 @@ extends Control
 
 var score: int = 0
 var combo_count: int = 0
-var total_note_val: int = 0
-var total_notes: int = 0
-var accuracy: int = 0
+var total_note_val: float = 0.0
+var total_notes: float = 0.0
+var accuracy: float = 0.0
+var accuracy_rounded: String = ""
 
 
 
@@ -29,7 +30,8 @@ func IncrementScore(incr: int):
 	
 	total_notes += 1
 	accuracy = total_note_val / total_notes
-	%AccuracyLabel.text = "Accuracy " + str(accuracy) + "%"
+	accuracy_rounded = "%.02f" % accuracy
+	%AccuracyLabel.text = "Accuracy " + accuracy_rounded + "%"
 	
 	
 func IncrementCombo():

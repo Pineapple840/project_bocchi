@@ -14,6 +14,7 @@ config/name="Rhythm game"
 run/main_scene="uid://bd357ugyjnm13"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+config/windows_native_icon="res://art/icon/bocchi_blob_happy.ico"
 
 [autoload]
 

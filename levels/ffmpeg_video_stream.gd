@@ -17,4 +17,7 @@ func PlayVideo(video_start_time: float):
 	#video_player.playback_speed = 2.0
 	video_player.play()
 	video_player.set_stream_position(video_start_time)
+	print(video_player.get_stream_position())
+	await(video_player.get_stream_position() > video_start_time)
+	Signals.VideoStarted.emit()
 	
