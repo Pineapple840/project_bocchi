@@ -1,6 +1,9 @@
 extends Sprite2D
 
 @export var rotate_speed: float = 0.93
+var seconds_per_degree = 1 / (rotate_speed / get_process_delta_time())
+
+
 @export var arrow_opacity = 0.3
 
 @onready var rotating_arrow: Sprite2D = $Sprite2D
@@ -21,6 +24,7 @@ var note_type: String = "normal"
 var ghost_offset_position: Vector2
 var original_position: Vector2
 var passed_ghost: bool
+var abs_ghost_distance: float
 
 var bocchi_colour = Color(1, 0.6, 0.8, 1)
 var nijika_colour = Color(1, 1, 0.4, 1)
@@ -45,7 +49,8 @@ func _process(delta):
 		
 		
 	if moving_to_ghost:
-		position += Vector2(0, 245.33 * delta)
+		var normalised_ghost_pos = ghost_offset_position.normalized()
+		position += 245.33 * delta * normalised_ghost_pos
 		
 	if position.distance_to(ghost_offset_position + original_position) < 5 and note_type == "hold":
 		passed_ghost = true
@@ -65,6 +70,7 @@ func Setup(key_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is
 	$Sprite2D.modulate = Color(1, 1, 1, arrow_opacity)
 	
 	ghost_offset_position = ghost_pos
+	abs_ghost_distance = Vector2(0, 0).distance_to(ghost_offset_position)
 	
 	
 	button_name = key_name

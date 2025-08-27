@@ -22,9 +22,17 @@ var current_held_note: Sprite2D
 var ghost_key_to_pop: Sprite2D
 var hold: bool
 
+var song_seconds_per_beat: float
+var song_jump_distance: float
+
+
 func _ready():
 	Signals.CreateFallingKey.connect(CreateFallingKey)
 	Signals.KillGhost.connect(KillGhost)
+	
+	Signals.PlayVideo.connect(PlayVideo)
+	Signals.PlayVideoConnected.emit()
+	
 
 func _process(delta):
 	
@@ -48,6 +56,10 @@ func _process(delta):
 				st_inst.SetTextInfo(score_text_value)
 				st_inst.global_position = key_to_pop.global_position
 				
+				if ghost_key_queue.size() > 0:
+					ghost_key_to_pop = ghost_key_queue.pop_front()
+					ghost_key_to_pop.queue_free()
+				
 			
 			
 		if Input.is_action_just_pressed(key_name):
@@ -58,8 +70,10 @@ func _process(delta):
 				if key_to_pop != null:
 					if key_to_pop.note_type == "hold" and key_to_pop.rotating_arrow.global_rotation_degrees > -50:
 						key_to_pop.move_to_ghost()
-						var teleport: float = (((0.006517 * key_to_pop.rotating_arrow.global_rotation_degrees) / 0.65217) * 160) 
-						key_to_pop.position.y += (teleport)
+						var ghost_distance = key_to_pop.abs_ghost_distance
+						print(ghost_distance)
+						var teleport: Vector2 = (((key_to_pop.seconds_per_degree * key_to_pop.rotating_arrow.global_rotation_degrees) / ((ghost_distance / song_seconds_per_beat) * song_seconds_per_beat)) * ghost_distance * key_to_pop.ghost_offset_position.normalized()) 
+						key_to_pop.position += (teleport)
 						key_to_pop.rotating_arrow.visible = false
 						current_held_note = key_to_pop
 						hold = true
@@ -170,3 +184,9 @@ func KillGhost(button_name: String):
 	if ghost_key_queue.size() > 0 and button_name == key_name:
 		ghost_key_to_pop = ghost_key_queue.pop_front()
 		ghost_key_to_pop.queue_free()
+		
+func PlayVideo(video_start_time: float, seconds_per_beat: float, offset: float, jump_distance: float):
+	song_seconds_per_beat = seconds_per_beat
+	song_jump_distance = jump_distance
+	
+		

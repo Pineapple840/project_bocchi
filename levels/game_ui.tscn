@@ -29,11 +29,12 @@ color = Color(0, 0, 0, 0.392157)
 
 [node name="ScoreLabel" type="RichTextLabel" parent="CanvasLayer"]
 unique_name_in_owner = true
-offset_right = 301.0
+offset_left = 3.0
+offset_right = 304.0
 offset_bottom = 64.0
 theme_override_constants/outline_size = 5
 theme_override_fonts/normal_font = ExtResource("2_tpbhn")
-theme_override_font_sizes/normal_font_size = 41
+theme_override_font_sizes/normal_font_size = 24
 text = "0 pts"
 scroll_active = false
 
@@ -45,20 +46,19 @@ offset_right = 1146.0
 offset_bottom = 582.0
 theme_override_constants/outline_size = 5
 theme_override_fonts/normal_font = ExtResource("2_tpbhn")
-theme_override_font_sizes/normal_font_size = 41
+theme_override_font_sizes/normal_font_size = 36
 text = "0x"
 scroll_active = false
 horizontal_alignment = 2
 
 [node name="AccuracyLabel" type="RichTextLabel" parent="CanvasLayer"]
 unique_name_in_owner = true
-offset_left = 678.0
-offset_top = 11.0
-offset_right = 1111.0
-offset_bottom = 75.0
+offset_left = 717.0
+offset_right = 1150.0
+offset_bottom = 64.0
 theme_override_constants/outline_size = 5
 theme_override_fonts/normal_font = ExtResource("2_tpbhn")
-theme_override_font_sizes/normal_font_size = 41
+theme_override_font_sizes/normal_font_size = 24
 text = "Accuracy: 0.00%"
 scroll_active = false
 horizontal_alignment = 2

@@ -5,10 +5,13 @@ signal IncrementScore(incr: int)
 signal IncrementCombo()
 signal ResetCombo()
 
+
 signal CreateFallingKey(button_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is_hold_note: bool, ghost_pos: Vector2)
 signal KillGhost(button_name: String)
 
-signal PlayVideo(video_start_time: float)
+signal TransmitSongInfo(jump_distance: float)
+
+signal PlayVideo(video_start_time: float, seconds_per_beat: float, offset: float, jump_distance: float)
 signal PlayVideoConnected()
 signal VideoStarted()
 

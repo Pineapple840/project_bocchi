@@ -12,3 +12,9 @@ func Setup(key_name: String, ghost_pos: Vector2):
 			$KeyIndicator.text = "[center]" + "J"
 		'button_K':
 			$KeyIndicator.text = "[center]" + "K"
+			
+func _ready():
+	#backup in case it is not removed. I know, I am good at programming right?
+	#await get_tree().create_timer(5).timeout
+	#queue_free()
+	pass

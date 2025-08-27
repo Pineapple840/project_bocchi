@@ -2,18 +2,29 @@ extends Node2D
 
 var current_level_name = "WASURETE_YARANAI"
 
-var video_start_time = 50
+var video_start_time = 0
+var current_seconds_per_beat: float
+var current_offset: float
+var current_jump_distance: float
 
 var level_info = {
 	"WASURETE_YARANAI" = {
 		"bpm": 184.0,
 		"offset": 0.722,
+		"default_jump_distance": 80.0,
 		"note_list": [
 			#Info for each note:
-			#1st value - what measure each note is on
-			#2nd value - angle (in degrees) from previous note
-			#3rd value - key required to press
-			#4th value (optional) - If part of a multi note, jump distance modifier
+			#1st value - What measure each note is on
+			#2nd value - Angle (in degrees) from previous note
+			#3rd value - Key required to press
+			
+			#4th value (optional) - If part of a multi note, jump distance modifier. 
+				#If it is a hold note a but not a multi note value is 'N',
+			
+			#5th value (optional) - If part of a hold note
+			#6th value (optional) - Angle (in degrees) of ghost note from hold note
+			#7th value (optional) - how many measures the hold lasts for
+			 
 [1, 180, 'J'], [1.5, 180, 'F'], [2, 180, 'J'], [3, 180, 'J'], [3.5, 45, 'J'], [4.5, 45, 'F'], 
 [5.5, 45, 'J'], [6.5, 45, 'F'], [7.5, 0, 'D'], [8, 0, 'D'], [8.5, 0, 'D'],
 [9, 0, 'J'], [9.5, 0, 'F'], [10, 0, 'J'], [11, 0, 'J'], [11.5, 0, 'J'], [12.5, 0, 'F'],
@@ -57,14 +68,23 @@ var level_info = {
 [129.5, -30, 'J'], [130, 0, 'J'], [130.5, 0, 'J'], [131, 0, 'J'], [131.5, 30, 'F'], [132, 0, 'D'], [132.5, -30, 'F', 1], [132.5, -90, 'K', 1],
 [133.5, 30, 'J'], [134, 30 , 'J'], [134.5, 60, 'F'], [135, 150, 'F'], [135.5, 120, 'D'], [136, 30, 'D'],
 [137.5, 150, 'F'], [138, -150, 'J'], [138.5, -150, 'K'], [139, -110, 'F'], [139.5, -110, 'J'], [140, -70, 'F'], [140.5, -70, 'J'],
-[141, -30, 'F', 0.5], [141, -90, 'J', 0.5], [141, -90, 'K', 0.5], [142, 0, 'K', 1], [142, 90, 'J', 0.5], [142, 90, 'F', 0.5], [143, 0, 'F', 1], [143, -90, 'J', 0.5], [143, -90, 'K', 0.5], [144, 0, 'K', 1], [144, 90, 'J', 0.5], [144, 90, 'F', 0.5], 
+[141, -30, 'F', 0.5], [141, -90, 'J', 0.5], [141, -90, 'K', 0.5], [142, 0, 'K', 1], [142, 90, 'J', 0.5], [142, 90, 'F', 0.5], [143, 0, 'F', 1], [143, -90, 'J', 0.5], [143, -90, 'K', 0.5], [144, 0, 'K', 1], [144, 90, 'J', 0.5], [144, 90, 'F', 0.5],
+ 
 [145, 30, 'D', 1], [145, 0, 'F', 0.5], [147, 30, 'J'], [148, 30, 'F'],
 [150, 90, 'K'], [151, 180, 'J'], [152, 180, 'K'],
 [153, -150, 'D'], [154.5, -150, 'K'], [155, -150, 'K'], [156, -150, 'J'],
 [157, -60, 'K'], [157.5, -60, 'K'], [158, -60, 'K'], [158.5, -30, 'J'] , [159, -60, 'K'],
+
 [161, -150, 'F', 'N', 'H', 90, 2], [163, 180, 'J', 'N', 'H', 90, 2],
 [165, 180, 'K', 'N', 'H', 90, 2], [167, 180, 'J', 'N', 'H', 90, 2],
-[169, 120, 'K'], [170, 120, 'J'], [171, 90, 'F'], [172, 90, 'D']
+[169, 120, 'K'], [170, 120, 'J'], [171, 90, 'F'], [172, 90, 'D'],
+[173, 90, 'F', 'N', 'H', 0, 2], [175, 30, 'D'],
+
+[177, -30, 'J', 'N', 'H', -90, 2], [179, 0, 'F', 'N', 'H', -90, 2],
+[181, 0, 'D', 'N', 'H', -90, 2], [183, 0, 'F', 'N', 'H', -90, 2],
+[185, -60, 'D'], [186, -60, 'K'], [187, -90, 'J'], [188, -90, 'F'],
+[189, 180, 'J', 'N', 'H', 180, 2], [191, -150, 'K'], 
+
 
  
    
@@ -82,13 +102,19 @@ func _ready():
 	var offset = level_info.get(current_level_name).get("offset")
 	var bpm = level_info.get(current_level_name).get("bpm")
 	var seconds_per_beat: float = 60/bpm
+	var jump_distance = level_info.get(current_level_name).get("default_jump_distance")
+	
+	current_seconds_per_beat = seconds_per_beat
+	current_offset = offset
+	current_jump_distance = jump_distance
 	
 
 	
 	var last_x: float = 0
 	var last_y: float = 0
 	var last_beat: float = 1
-	var jump_distance = 80
+	
+	
 	
 	await VideoStarted()
 		
@@ -149,11 +175,11 @@ func SpawnFallingKey(button_name: String, real_delay: float, x_pos: float, y_pos
 	await get_tree().create_timer(real_delay).timeout
 	Signals.CreateFallingKey.emit(button_name, x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
 
-func PlayVideo(video_start_time):
-	Signals.PlayVideo.emit(video_start_time)
+func PlayVideo():
+	Signals.PlayVideo.emit(video_start_time, current_seconds_per_beat, current_offset, current_jump_distance)
 	
 func PlayVideoConnected():
-	PlayVideo(video_start_time)
+	PlayVideo()
 	
 func VideoStarted():
 	pass

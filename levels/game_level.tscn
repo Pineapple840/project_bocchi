@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bd357ugyjnm13"]
+[gd_scene load_steps=9 format=3 uid="uid://bd357ugyjnm13"]
 
 [ext_resource type="PackedScene" uid="uid://dibdjsg7er80y" path="res://objects/key_listener.tscn" id="1_qc6i3"]
 [ext_resource type="PackedScene" uid="uid://b8wlbdc1vyqox" path="res://levels/game_ui.tscn" id="2_sklrn"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://iyjyun8oftf6" path="res://levels/ffmpeg_video_stream.gd" id="6_smvv8"]
 [ext_resource type="PackedScene" uid="uid://ohkaa571vlsc" path="res://objects/bocchi_blob.tscn" id="6_wtvao"]
 [ext_resource type="Script" uid="uid://f18v8uxyqgf7" path="res://objects/bocchi_blob.gd" id="7_smvv8"]
+[ext_resource type="PackedScene" uid="uid://d0n0o15n1c0qs" path="res://objects/signals.tscn" id="8_5kejm"]
 
 [node name="GameLevel" type="Node2D"]
 
@@ -61,3 +62,5 @@ expand = true
 position = Vector2(497, 277)
 scale = Vector2(0.163086, 0.163086)
 script = ExtResource("7_smvv8")
+
+[node name="Signals" parent="." instance=ExtResource("8_5kejm")]
