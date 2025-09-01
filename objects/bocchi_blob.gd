@@ -8,6 +8,8 @@ var time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_lat
 var song_seconds_per_beat: float
 var song_offset: float
 
+var x = false
+
 func _ready():
 	
 	Signals.ChangeBocchiBlobFace.connect(ChangeBocchiBlobFace)
@@ -33,12 +35,14 @@ func bounce(delay):
 		animation = true
 		
 func PlayVideo(video_start_time: float, seconds_per_beat: float, offset: float, jump_distance: float):
-	song_seconds_per_beat = seconds_per_beat
-	var bounce_start_delay = 0.7013478261 + time_delay - fmod(video_start_time, 0.7013478261)
-	print(bounce_start_delay)
-	
-	bounce(0.7013478261 + time_delay - fmod(video_start_time, 0.7013478261))
-	print("hi")
+	if not x:
+		x = true
+		song_seconds_per_beat = seconds_per_beat
+		var bounce_start_delay = offset + time_delay - fmod(video_start_time, 0.7013478261)
+		print(bounce_start_delay)
+		
+		bounce(bounce_start_delay)
+		print("hi")
 		
 func ChangeBocchiBlobFace(face: String):
 	match face:

@@ -56,6 +56,7 @@ offset_left = -576.0
 offset_top = -324.0
 offset_right = 576.0
 offset_bottom = 324.0
+volume_db = 10.0
 expand = true
 
 [node name="BocchiBlob" parent="." instance=ExtResource("6_wtvao")]

@@ -1,8 +1,7 @@
 extends Sprite2D
 
 @export var rotate_speed: float = 0.93
-var seconds_per_degree = 1 / (rotate_speed / get_process_delta_time())
-
+var seconds_per_degree: float
 
 @export var arrow_opacity = 0.3
 
@@ -36,6 +35,8 @@ func _init():
 	hold_ghost_key = preload("res://objects/hold_ghost_key.tscn")
 	
 func _process(delta):
+	seconds_per_degree = 1 / (rotate_speed / get_process_delta_time())
+	
 	$Sprite2D.global_rotation_degrees += rotate_speed * 165 * delta
 	
 	if $Sprite2D.global_rotation_degrees < -170:
@@ -62,6 +63,7 @@ func _process(delta):
 	
 
 func Setup(key_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is_hold_note: bool, ghost_pos: Vector2):
+	
 	
 	global_position = Vector2(x_pos, y_pos)
 	original_position = global_position

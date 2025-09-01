@@ -72,7 +72,8 @@ func _process(delta):
 						key_to_pop.move_to_ghost()
 						var ghost_distance = key_to_pop.abs_ghost_distance
 						print(ghost_distance)
-						var teleport: Vector2 = (((key_to_pop.seconds_per_degree * key_to_pop.rotating_arrow.global_rotation_degrees) / ((ghost_distance / song_seconds_per_beat) * song_seconds_per_beat)) * ghost_distance * key_to_pop.ghost_offset_position.normalized()) 
+						var teleport: Vector2 = (((key_to_pop.seconds_per_degree * key_to_pop.rotating_arrow.global_rotation_degrees) / ((ghost_distance / song_jump_distance) * song_seconds_per_beat)) * ghost_distance * key_to_pop.ghost_offset_position.normalized())
+						print("teleport" + str(teleport) + str(key_to_pop.seconds_per_degree) + str(song_seconds_per_beat)) 
 						key_to_pop.position += (teleport)
 						key_to_pop.rotating_arrow.visible = false
 						current_held_note = key_to_pop

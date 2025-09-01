@@ -1,0 +1,165 @@
+[gd_scene load_steps=12 format=3 uid="uid://b155cre0kd0g6"]
+
+[ext_resource type="FontFile" uid="uid://dve3sf8u41wa3" path="res://fonts/poppins.black.ttf" id="1_0ettg"]
+[ext_resource type="Script" uid="uid://d2dy3ubge7iqj" path="res://levels/main_menu.gd" id="1_duh7t"]
+[ext_resource type="Texture2D" uid="uid://dip88xnhvrme8" path="res://art/main_menu/Screenshot 2025-08-31 191552.png" id="2_7rktv"]
+[ext_resource type="Texture2D" uid="uid://bubothvuj35vs" path="res://art/main_menu/bocchi-blogroll-1672352846343.jpg" id="3_6ymyu"]
+[ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="4_nwbki"]
+[ext_resource type="AudioStream" uid="uid://c7pblcxmoafd5" path="res://audio/Blue Spring and Western Sky-instrumental-.mp3" id="5_3ye4h"]
+[ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="6_pppj1"]
+[ext_resource type="Texture2D" uid="uid://ojk6fj6mwx58" path="res://art/main_menu/Screenshot 2025-09-01 165430.png" id="8_lppu5"]
+[ext_resource type="Texture2D" uid="uid://d28gq3ulu85h6" path="res://art/main_menu/Screenshot 2025-09-01 170519.png" id="9_6xkr4"]
+[ext_resource type="Texture2D" uid="uid://c1ardyftqummg" path="res://art/main_menu/Screenshot 2025-09-01 163435.png" id="9_ofye2"]
+[ext_resource type="Texture2D" uid="uid://8oxvcvf8ud20" path="res://art/main_menu/Screenshot 2025-09-01 170820.png" id="10_lppu5"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_duh7t")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1263.0
+offset_bottom = 647.0
+texture = ExtResource("2_7rktv")
+expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -226.0
+offset_top = -34.0
+offset_right = 188.0
+offset_bottom = 97.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("1_0ettg")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("4_nwbki")
+text = "Start Game"
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("3_6ymyu")
+expand_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -440.5
+offset_top = 40.0
+offset_right = 440.5
+offset_bottom = 201.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 4
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/normal_font = ExtResource("1_0ettg")
+theme_override_font_sizes/italics_font_size = 70
+theme_override_font_sizes/normal_font_size = 60
+bbcode_enabled = true
+text = "[i]Project Kessoku![i]"
+horizontal_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_3ye4h")
+autoplay = true
+parameters/looping = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = -90.5
+offset_right = 448.0
+offset_bottom = 90.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="StartGame" type="Button" parent="HBoxContainer2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = ExtResource("4_nwbki")
+theme_override_styles/normal = ExtResource("6_pppj1")
+text = "Start Game"
+icon = ExtResource("8_lppu5")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Options" type="Button" parent="HBoxContainer2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = ExtResource("4_nwbki")
+theme_override_styles/normal = ExtResource("6_pppj1")
+text = "Options"
+icon = ExtResource("9_6xkr4")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Extras" type="Button" parent="HBoxContainer2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = ExtResource("4_nwbki")
+theme_override_styles/normal = ExtResource("6_pppj1")
+text = "Extras"
+icon = ExtResource("10_lppu5")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="CloseGame" type="Button" parent="HBoxContainer2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = ExtResource("4_nwbki")
+theme_override_styles/normal = ExtResource("6_pppj1")
+text = "Close Game"
+icon = ExtResource("9_ofye2")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_start_pressed"]
+[connection signal="pressed" from="HBoxContainer2/StartGame" to="." method="_start_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Options" to="." method="_options_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Extras" to="." method="_extras_pressed"]
+[connection signal="pressed" from="HBoxContainer2/CloseGame" to="." method="_close_game_pressed"]
