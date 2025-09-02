@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://debjkey4w0qr0"]
+
+[ext_resource type="Script" uid="uid://ba7e8mgmfqkrn" path="res://levels/pause_menu.gd" id="1_e7fsp"]
+[ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="2_3jqdk"]
+[ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_uxnw6"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e7fsp")
+
+[node name="TextureRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.678431)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -222.5
+offset_top = -138.0
+offset_right = 222.5
+offset_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Resume" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/hover = ExtResource("2_3jqdk")
+theme_override_styles/normal = ExtResource("3_uxnw6")
+text = "Resume"
+
+[node name="RestartLevel" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/hover = ExtResource("2_3jqdk")
+theme_override_styles/normal = ExtResource("3_uxnw6")
+text = "Restart level"
+
+[node name="ExitToMenu" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/hover = ExtResource("2_3jqdk")
+theme_override_styles/normal = ExtResource("3_uxnw6")
+text = "Exit to menu"
+
+[connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/RestartLevel" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ExitToMenu" to="." method="_on_exit_button_pressed"]

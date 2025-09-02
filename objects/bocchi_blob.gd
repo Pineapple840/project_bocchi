@@ -9,6 +9,7 @@ var song_seconds_per_beat: float
 var song_offset: float
 
 var x = false
+var bounce_processing = false
 
 func _ready():
 	
@@ -24,7 +25,7 @@ func _ready():
 	#bounce(song_offset + time_delay)
 	
 func bounce(delay):
-	await get_tree().create_timer(delay).timeout
+	await get_tree().create_timer(delay, false).timeout
 	bounce(song_seconds_per_beat)
 	
 	if animation:
@@ -52,6 +53,7 @@ func ChangeBocchiBlobFace(face: String):
 		"happy":
 			texture = load("res://art/bocchi_blob_happy.png")
 			current_face = "happy"
+
 			
 	
 		

@@ -127,7 +127,7 @@ func _ready():
 	
 	
 func SpawnFallingKey(button_name: String, real_delay: float, x_pos: float, y_pos: float, is_multi_note: bool, is_hold_note: bool, ghost_pos: Vector2):
-	await get_tree().create_timer(real_delay).timeout
+	await get_tree().create_timer(real_delay, false).timeout
 	Signals.CreateFallingKey.emit(button_name, x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
 
 func PlayVideo():
@@ -199,7 +199,7 @@ func VideoStarted():
 		last_x = x_pos
 		last_y = y_pos
 		last_beat = note[0]
-		if note[0] != 0 and real_delay > 0:
+		if note[0] != 0 and real_delay > 0 and not get_tree().paused:
 			
 			SpawnFallingKey(button_name, real_delay, x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
 	
