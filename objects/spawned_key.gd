@@ -31,7 +31,7 @@ var ryo_colour = Color(0.5, 0.5, 1, 1)
 var kita_colour = Color(1, 0.5, 0.5, 1)
 
 func _init():
-	set_process(false)
+	#set_process(false)
 	hold_ghost_key = preload("res://objects/hold_ghost_key.tscn")
 	
 func _process(delta):

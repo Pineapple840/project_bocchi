@@ -19,37 +19,22 @@ offset_left = -576.0
 offset_top = -324.0
 offset_right = 576.0
 offset_bottom = 324.0
+mouse_filter = 2
 expand = true
 script = ExtResource("2_wtvao")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="KeyListener3" parent="." instance=ExtResource("1_qc6i3")]
-visible = false
-frame = 2
-key_name = "button_J"
-
-[node name="KeyListener4" parent="." instance=ExtResource("1_qc6i3")]
-visible = false
-frame = 1
-key_name = "button_F"
-
-[node name="KeyListener5" parent="." instance=ExtResource("1_qc6i3")]
-visible = false
-frame = 3
-key_name = "button_K"
-
-[node name="KeyListener6" parent="." instance=ExtResource("1_qc6i3")]
-visible = false
-key_name = "button_D"
-
 [node name="GameUI" parent="." instance=ExtResource("2_sklrn")]
+z_index = -1
+mouse_filter = 2
 
 [node name="LevelEditor" parent="." instance=ExtResource("4_n0b0m")]
 
 [node name="FFmpegVideoStream" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 2
 script = ExtResource("6_smvv8")
 
 [node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="FFmpegVideoStream"]
@@ -71,4 +56,24 @@ script = ExtResource("7_smvv8")
 [node name="PauseMenu" parent="." instance=ExtResource("9_3n7cs")]
 process_mode = 3
 visible = false
-z_index = 2
+z_index = 5
+mouse_default_cursor_shape = 2
+
+[node name="KeyListener3" parent="." instance=ExtResource("1_qc6i3")]
+visible = false
+frame = 2
+key_name = "button_J"
+
+[node name="KeyListener4" parent="." instance=ExtResource("1_qc6i3")]
+visible = false
+frame = 1
+key_name = "button_F"
+
+[node name="KeyListener5" parent="." instance=ExtResource("1_qc6i3")]
+visible = false
+frame = 3
+key_name = "button_K"
+
+[node name="KeyListener6" parent="." instance=ExtResource("1_qc6i3")]
+visible = false
+key_name = "button_D"
