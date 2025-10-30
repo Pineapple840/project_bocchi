@@ -15,7 +15,7 @@ func _ready():
 	
 	Signals.ChangeBocchiBlobFace.connect(ChangeBocchiBlobFace)
 	
-	Signals.PlayVideo.connect(PlayVideo)
+	Signals.LevelStart.connect(LevelStart)
 	Signals.PlayVideoConnected.emit()
 	
 	
@@ -35,11 +35,11 @@ func bounce(delay):
 		position.y -= 5
 		animation = true
 		
-func PlayVideo(video_start_time: float, seconds_per_beat: float, offset: float, jump_distance: float):
+func LevelStart(video_start_time: float, seconds_per_beat: float, offset: float, jump_distance: float):
 	if not x:
 		x = true
 		song_seconds_per_beat = seconds_per_beat
-		var bounce_start_delay = offset + time_delay - fmod(video_start_time, 0.7013478261)
+		var bounce_start_delay = offset - fmod(video_start_time, seconds_per_beat)
 		print(bounce_start_delay)
 		
 		bounce(bounce_start_delay)

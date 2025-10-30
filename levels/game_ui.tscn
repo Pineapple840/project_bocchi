@@ -14,19 +14,6 @@ script = ExtResource("1_451jp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-visible = false
-offset_right = 256.0
-offset_bottom = 78.0
-color = Color(0, 0, 0, 0.392157)
-
-[node name="ColorRect3" type="ColorRect" parent="CanvasLayer"]
-visible = false
-offset_left = 815.0
-offset_right = 1153.0
-offset_bottom = 85.0
-color = Color(0, 0, 0, 0.392157)
-
 [node name="ScoreLabel" type="RichTextLabel" parent="CanvasLayer"]
 unique_name_in_owner = true
 offset_left = 3.0

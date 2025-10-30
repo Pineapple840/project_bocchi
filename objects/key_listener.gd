@@ -30,7 +30,7 @@ func _ready():
 	Signals.CreateFallingKey.connect(CreateFallingKey)
 	Signals.KillGhost.connect(KillGhost)
 	
-	Signals.PlayVideo.connect(PlayVideo)
+	Signals.LevelStart.connect(LevelStart)
 	Signals.PlayVideoConnected.emit()
 	
 
@@ -186,7 +186,7 @@ func KillGhost(button_name: String):
 		ghost_key_to_pop = ghost_key_queue.pop_front()
 		ghost_key_to_pop.queue_free()
 		
-func PlayVideo(video_start_time: float, seconds_per_beat: float, offset: float, jump_distance: float):
+func LevelStart(video_start_time: float, seconds_per_beat: float, offset: float, jump_distance: float):
 	song_seconds_per_beat = seconds_per_beat
 	song_jump_distance = jump_distance
 	

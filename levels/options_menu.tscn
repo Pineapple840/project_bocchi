@@ -1,0 +1,156 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpgreie0r3oh5"]
+
+[ext_resource type="Script" uid="uid://ylgqnsbip65y" path="res://levels/options_menu.gd" id="1_068ri"]
+[ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="2_igs5e"]
+[ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_w88fy"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_068ri")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_outline_size = 4
+theme_override_font_sizes/italics_font_size = 48
+bbcode_enabled = true
+text = "[i]Options[i]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicSetting" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 30)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="MusicVolume" type="RichTextLabel" parent="MarginContainer/VBoxContainer/MusicSetting"]
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "Music volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="MarginContainer/VBoxContainer/MusicSetting"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="MusicVal" type="RichTextLabel" parent="MarginContainer/VBoxContainer/MusicSetting"]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "50%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OffsetSetting" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 30)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="NoteOffset" type="RichTextLabel" parent="MarginContainer/VBoxContainer/OffsetSetting"]
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "Note offset"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OffsetSlider" type="HSlider" parent="MarginContainer/VBoxContainer/OffsetSetting"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = -500.0
+max_value = 500.0
+
+[node name="OffsetVal" type="RichTextLabel" parent="MarginContainer/VBoxContainer/OffsetSetting"]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 28
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DimSetting" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 30)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="BackgroundDim" type="RichTextLabel" parent="MarginContainer/VBoxContainer/DimSetting"]
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "Background Dim"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DimSlider" type="HSlider" parent="MarginContainer/VBoxContainer/DimSetting"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 15.0
+
+[node name="DimVal" type="RichTextLabel" parent="MarginContainer/VBoxContainer/DimSetting"]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 28
+text = "15%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = ExtResource("2_igs5e")
+theme_override_styles/normal = ExtResource("3_w88fy")
+text = "Exit"
+
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MusicSetting/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/OffsetSetting/OffsetSlider" to="." method="_on_offset_slider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/DimSetting/DimSlider" to="." method="_on_dim_slider_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_pressed"]

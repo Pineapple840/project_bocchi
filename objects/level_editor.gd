@@ -1,14 +1,23 @@
 extends Node2D
 
-var current_level_name = "WASURETE_YARANAI"
+@onready var animation_player = get_node("../AnimationPlayer")
 
-var video_start_time = 130
+var note_offset: float
+
+var current_level_name = ""
+
+var video_length_seconds
+var video_start_time = 0
 var current_seconds_per_beat: float
 var current_offset: float
 var current_jump_distance: float
 
+var video_desync: float
+
 var level_info = {
-	"WASURETE_YARANAI" = {
+	"never_forget" = {
+		"video_resource": "res://videos/wasurete_yaranai.mp4",
+		"video_length_seconds": 142,
 		"bpm": 184.0,
 		"offset": 0.722,
 		"default_jump_distance": 80.0,
@@ -164,17 +173,129 @@ var level_info = {
 [425, 150, 'J', 'N', 'H', 150, 3.5], [428.5, 150, 'F'], [428.75, 150, 'J'],
 [429, 150, 'F']
 ]
+	},
+	"guitar_loneliness_and_blue_planet" = {
+		"video_resource": "res://videos/guitar_loneliness_and_blue_planet.mp4",
+		"video_length_seconds": 103,
+		"bpm": 193.0,
+		"offset": 2.565,
+		"default_jump_distance": 90.0,
+		"note_list": [
+			#Info for each note:
+			#1st value - What beat each note is on (each line is a measure)
+			#2nd value - Angle (in degrees) from previous note
+			#3rd value - Key required to press
+			
+			#4th value (optional) - If part of a multi note, jump distance modifier. 
+				#If it is a hold note a but not a multi note value is 'N',
+			
+			#5th value (optional) - If part of a hold note
+			#6th value (optional) - Angle (in degrees) of ghost note from hold note
+			#7th value (optional) - how many measures the hold lasts for
+			 
+[1, 0, 'J'], [1.5, 0, 'J'], [2, 0, 'J'], [2.5, 0, 'J'], [3.5, 0, 'J'], [4.5, -30, 'F'],
+[5.5, -60, 'F'], [6.5, -90, 'F'],
+[9, 180, 'J'], [9.5, 180, 'J'], [10, 180, 'J'], [10.5, 180, 'J'], [11.5, 180, 'J'], [12.5, 150, 'K'],
+[13.5, 120, 'K'], [14.5, 90, 'K'],
+
+[17, 0, 'F'], [17.5, 0, 'F'], [18, 0, 'F'], [18.5, 0, 'F'], [19.5, 0, 'F'], [20.5, 30, 'D'],
+[21.5, 60, 'D'], [22.5, 90, 'D'],
+[25, -150, 'F'], [26, 180, 'F'], [27, 180, 'F'], [28, -150, 'J'], [28.5, 180, 'K'],
+[29.5, 180, 'K'], [30.5, 180, 'K'], [31.5, 180, 'K'],
+
+[33, -90, 'F'], [34, -60, 'F'], [35, -30, 'F'], [35.5, 0, 'D'], [36.5, 0, 'F'], 
+[37.5, 0, 'F'], [38.5, 0, 'F'], [39.5, 0, 'F'], [40, 0, 'F'],
+
+[41, 30, 'K'], [42, 30, 'K'], [42.5, 30, 'K'], [43.5, 60, 'J'], [44, 80, 'K'], [44.5, 100, 'J'],
+[45, 120, 'K'], [46, 150, 'F'], [47, -150, 'J'], [48, 150, 'F'],
+[49, -150, 'J'], [50.5, -150, 'D'], [51, -90, 'D'], [52.5, -30, 'F'],
+[53, 0, 'F'], [54.5, 30, 'J'], [55, 90, 'J'], [56.5, 150, 'D'],
+
+[57, 180, 'D'], [60, -90, 'K'],
+[61, 0, 'K'], [62, 0, 'K'], [63, 90, 'J'], [64, 180, 'J'],
+[65, 90, 'D'], [66, 0, 'D'], [67, 90, 'F'], [68, 180, 'F'],
+[69, 180, 'J'], [70.5, 180, 'F'], [71, 180, 'J'],
+
+[73, -90, 'F'], [74, -50, 'K'], [74.5, -30, 'J'], [75, -10, 'K'], [75.5, 10, 'J'], [76, 30, 'K'], [76.5, 50, 'J'],
+[77, 50, 'F'], [78, 30, 'J'], [79, 150, 'F'], [80, 30, 'J'],
+[81, 150, 'F'], [82.5, -150, 'D'], [83, 90, 'D'], [84.5, 30, 'F'],
+[85, 0, 'F'], [86.5, -30, 'D'], [87, -90, 'D'] , [88.5, -150, 'K'],
+
+[89, 180, 'K'], [92, -150, 'F'],
+[93, 180, 'F'], [94, 180, 'F'], [95, 90, 'J'], [96, 0, 'J'],
+[97, 90, 'D'], [98, 180, 'D'], [99, 90, 'K'], [100, 0, 'K'],
+[101, 30, 'F'], [102.5, 20, 'J'], [103, 10, 'K'],
+
+[105, -30, 'F', 'N', 'H', -30, 1.333], [106.5, -60, 'J'], [107, -120, 'F'], [108.5, 180, 'J'],
+[109, 150, 'F', 'N', 'H', 150, 1.333], [110.5, 120, 'J'], [111, 60, 'F'], [112.5, 0, 'J'],
+[113, -30, 'F'], [114, -50, 'J'], [115, -80, 'F'], [116, -120, 'J'],
+[117, -150, 'F', 'N', 'H', -150, 1.333], [118.5, 180, 'J'], [119, 120, 'F'], [120.5, 60, 'J'],
+
+
+[121, 30, 'D', 'N', 'H', 30, 1.667], [123, 0, 'J'], [124.5, -60, 'F'],
+[125, -120, 'K', 'N', 'H', -120, 1.667], [127, -150, 'F'], [128.5, 150, 'J'],
+[129, 165, 'F'], [130, 165, 'J'], [131, 165, 'F'], [132, 165, 'J'],
+[133, 180, 'D'], [134, 180, 'K'], [135, 180, 'D'], [136.5, 90, 'K'],
+
+[137, 0, 'F', 'N', 'H', 0, 1.333], [138.5, -30, 'J'], [139, -30, 'F'], [140.5, 0, 'K'],
+[141, 0, 'F', 'N', 'H', 0, 1.333], [142.5, -30, 'J'], [143, -30, 'F'], [144.5, 0, 'K'],
+[145, 0, 'K'], [146, 0, 'J'], [147, 90, 'J'], [148, 180, 'J'],
+[149, -90, 'D'], [150, 0, 'F'], [151, 90, 'F'], [152, 180, 'F'],
+
+[153, 180, 'J'], [156, 180, 'F'],
+[157.5, -170, 'J'], [158, -160, 'J'], [160, -40, 'F'],
+[161, -30, 'J', 'N', 'H', 0, 1.333], [162.5, 30, 'F'], [163, 0, 'J'],
+[165, 60, 'F', 'N', 'H', 90, 1.333], [166.5, 120, 'J'], [167, 180, 'F'],
+
+[170, -150, 'J'], [171, -120, 'J'], [172, -90, 'J'],
+[173, 0, 'D'], [173.5, 0, 'D'], [174, 0, 'D'], [175, 45, 'F'], [175.5, 45, 'F'], [176, 45, 'F'],
+[177, 90, 'J'], [178, 180, 'F'], [179, 90, 'D'], [180, 180, 'F'],
+[181, -90, 'K'], [182, -90, 'K'], [183, 180, 'J'], [184, 180, 'J'],
+
+[185, -90, 'F'], [186.5, 0, 'J'], [187, 0, 'K'], [187.5, 0, 'J'], [188, 0, 'K'], [188.5, 0, 'J'],
+[189, 0, 'K'], [189.5, 0, 'K'], [190.5, 90, 'F'], [191, 90, 'F'], [191.5, 90, 'F'], [192.5, 0, 'D'],
+[193, 0, 'D'], [193.5, 0, 'D'], [194.5, -90, 'J'], [195, -110, 'K'], [195.5, -130, 'J'], [196, -150, 'K'], [196.5, -170, 'J'],
+[197, 150, 'F', 0.7071, 'M'], [197, 90, 'D', 0.5, 'M'], [198, 180, 'D', 'N', 'M'], [198, -90, 'F', 0.5, 'M'], [199, 180, 'F', 'N', 'M'], [199, 90, 'D', 0.5, 'M'], [200, 180, 'D', 'N', 'M'], [200, -90, 'F', 0.5, 'M'],
+
+[201, 180, 'F', 'N', 'M'], [201, 90, 'D', 0.5, 'M'], [203, 150, 'K'], [204, 90, 'J'],
+[205, 60, 'F'], [205.5, 0, 'F'], [206, 0, 'F'], [207, -15, 'J'], [208, 0, 'J'],
+[209, -15, 'D'], [210, 0, 'D'], [211, -15, 'K'], [212, 0, 'K'],
+[213, -90, 'F', 'N', 'M'], [213, -90, 'J', 0.5, 'M'], [215, -165.96, 'K', 2.062, 'MH', 180, 1.667], [215, 90, 'D', 1.5, 'MH', 180, 1.667],
+
+[217, -165.96, 'F', 2.062, 'M'], [217, -90, 'J', 0.5, 'M'], [219, -150, 'D'], [220, -30, 'F'],
+[221, -30, 'J', 'N', 'M'], [221, -90, 'K', 0.5, 'M'], [222, 54.736, 'F', 1.225], [222.5, 35, 'J'], [223, 40, 'F'], [223.5, 45, 'J'], [224, 50, 'F'], [224.5, 55, 'J'],
+[225, 60, 'D', 'N', 'M'], [225, 0, 'F', 0.5, 'M'], [226, 30, 'J'], [226.5, 0, 'F'], [227, -30, 'J'], [227.5, -60, 'F'], [228, -90, 'J'], [228.5, -120, 'F'],
+[229, -150, 'J', 'N', 'MH', 180, 3.333], [229, -90, 'K', 0.5, 'MH', 180, 3.333], [230, 125.264, 'F', 1.225], [230.5, 165, 'D'], [231, 165, 'F'], [231.5, 165, 'D'], [232, 165, 'F'], [232.5, 165, 'D'],
+
+[233, 180, 'F'], [234, -165, 'J'], [234.5, -165, 'D'], [235, -165, 'J'], [235.5, -165, 'D'], [236, -165, 'J'], [236.5, -165, 'D'],
+[237, -150, 'F', 'N', 'M'], [237, -90, 'J', 0.5, 'M'], [238, -30, 'F'], [238.5, -15, 'J'], [239, -15, 'F'], [239.5, -15, 'J'], [240, -15, 'F'], [240.5, -15, 'J'],
+[242.5, 80, 'F'], [243, 80, 'F'], [244, 80, 'F'],
+
+#end
+[245, 0, 'J'], [245.5, 0, 'J'], [246, 0, 'J'], [246.5, 0, 'J'], [247.5, 0, 'J'], [248.5, -30, 'F'],
+[249.5, -60, 'F'], [250.5, -90, 'F'],
+[253, 180, 'J'], [253.5, 180, 'J'], [254, 180, 'J'], [254.5, 180, 'J'], [255.5, 180, 'J'], [256.5, 150, 'K'],
+[257.5, 120, 'K'], [258.5, 90, 'K'],
+
+[261, 0, 'F'], [261.5, 0, 'F'], [262, 0, 'F'], [262.5, 0, 'F'], [263.5, 0, 'F'], [264.5, -30, 'D'],
+[265.5, -60, 'D'], [266.5, -90, 'D'],
+[269, 160, 'F'], [269.333, 160, 'J'], [269.667, 160, 'K'], [270, 160, 'F'], [270.333, 160, 'J'], [270.667, 160, 'K'], [271, 160, 'F'], [271.333, 160, 'J'], [271.667, 160, 'K'], [272, 160, 'F'], [272.333, 160, 'J'], [272.667, 160, 'K'],
+[273, 180, 'F'], [273.5, 180, 'F'], [274, 180, 'F'], [274.5, 180, 'F'], [275.5, 180, 'F'], [276, 180, 'F'],
+
+[278, -90, 'J'], [279, -45, 'J'], [279.5, -45, 'J'], [280.5, 0, 'J'], 
+[281.5, 0, 'J'], [282.5, 0, 'J'], [283.5, 90, 'F'], [284, 90, 'J'], [284.5, 146.310, 'D', 0.901, 'M'], [284.5, 0, 'F', 0.5, 'M'], [284.5, 0, 'J', 0.5, 'M'], [284.5, 0, 'K', 0.5, 'M']
+
+]
+
 	}
 }
 
-var note_list = level_info.get(current_level_name).get("note_list")
-#var fk_times_arr = str_to_var(fk_times)
-var offset = level_info.get(current_level_name).get("offset")
-var bpm = level_info.get(current_level_name).get("bpm")
-var seconds_per_beat: float = 60/bpm
-var jump_distance = level_info.get(current_level_name).get("default_jump_distance")
-
-
+var video_resource
+var note_list
+var offset
+var bpm: float
+var seconds_per_beat: float
+var jump_distance
 
 
 	
@@ -182,44 +303,63 @@ func _ready():
 	
 	Signals.PlayVideoConnected.connect(PlayVideoConnected)
 	Signals.VideoStarted.connect(VideoStarted)
+	Signals.SendVideoDesync.connect(ReceiveVideoDesync)
 	
+	ReadNoteOffset()
+	
+	#note_offset = Signals.GetNoteOffset.emit() / 1000
+	
+	current_level_name = GlobalVariables.current_song_name
+	
+	video_resource = level_info.get(current_level_name).get("video_resource")
+	video_length_seconds = level_info.get(current_level_name).get("video_length_seconds")
+	note_list = level_info.get(current_level_name).get("note_list")
+#var fk_times_arr = str_to_var(fk_times)
+	offset = level_info.get(current_level_name).get("offset")
+	bpm = level_info.get(current_level_name).get("bpm")
+	seconds_per_beat = 60/bpm
+	jump_distance = level_info.get(current_level_name).get("default_jump_distance")
 	
 	current_seconds_per_beat = seconds_per_beat
 	current_offset = offset
 	current_jump_distance = jump_distance
 	
-
+	await get_tree().create_timer(video_length_seconds - video_start_time, false).timeout
+	EndSong()
+	
 
 	
 	
 func SpawnFallingKey(button_name: String, real_delay: float, x_pos: float, y_pos: float, is_multi_note: bool, is_hold_note: bool, ghost_pos: Vector2):
 	await get_tree().create_timer(real_delay, false).timeout
 	Signals.CreateFallingKey.emit(button_name, x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
+	
+	#var time_delay2 = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
+	#print("time delay2: " + str(time_delay2))
 
 func PlayVideo():
-	Signals.PlayVideo.emit(video_start_time, current_seconds_per_beat, current_offset, current_jump_distance)
+	Signals.PlayVideo.emit(video_resource, video_start_time)
+	Signals.LevelStart.emit(video_start_time, current_seconds_per_beat, current_offset, current_jump_distance)
 	
 func PlayVideoConnected():
 	PlayVideo()
 	
 func VideoStarted():
 
-	
 
 	
 	var last_x: float = 0
 	var last_y: float = 0
 	var last_beat: float = 1
 	
+	var time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
+	print("time delay: " + str(time_delay))
 	
-	
-		
 	var button_name: String = ""
 	for note in note_list:
 		
 		var jump_for_note = jump_distance
 		
-		var time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 		
 		
 		match note[2]:
@@ -235,7 +375,7 @@ func VideoStarted():
 		#if note[0] != 0 and note[0] > video_start_time:
 			
 		#for multi notes
-		var real_delay: float = (note[0] + 4) * seconds_per_beat + offset - 1.445 - time_delay - video_start_time
+		var real_delay: float = (note[0] + 4) * seconds_per_beat + offset - 1.605 + note_offset - video_desync
 		var time_since_last_beat = note[0] - last_beat
 		
 		var is_multi_note: bool = false
@@ -260,7 +400,6 @@ func VideoStarted():
 			if str(note[4]) == 'H' or str(note[4]) == 'MH':
 				is_hold_note = true
 				ghost_pos = Vector2(note[6] * cos((note[5] * PI / 180)) * jump_for_note, note[6] * sin((note[5]) * PI / 180) * jump_for_note)
-				print(ghost_pos)
 		
 		last_x = x_pos
 		last_y = y_pos
@@ -268,4 +407,21 @@ func VideoStarted():
 		if note[0] != 0 and real_delay > 0 and not get_tree().paused:
 			
 			SpawnFallingKey(button_name, real_delay, x_pos, y_pos, is_multi_note, is_hold_note, ghost_pos)
+			#print(test_timer.time_left)
+func ReadNoteOffset():
+	if FileAccess.file_exists("user://game_settings.json"):
+		var file = FileAccess.open("user://game_settings.json", FileAccess.READ)
+		var json = file.get_as_text()
+		var options_data = JSON.parse_string(json)
+		note_offset = options_data["note_offset"]
+		
+		file.close()
+		
+func ReceiveVideoDesync(difference: float):
+	video_desync = difference
+	
+func EndSong():
+	animation_player.play("fade_out")
+	await get_tree().create_timer(0.5, false).timeout
+	get_tree().change_scene_to_file("res://levels/song_end_screen.tscn")
 	

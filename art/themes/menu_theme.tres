@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bcfrvr77gd4rv"]
+
+[ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="1_prp2o"]
+[ext_resource type="StyleBox" uid="uid://cr84plf6q0aex" path="res://art/styles/menu_item_hvpress.tres" id="2_2ycb0"]
+[ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_6xhgq"]
+[ext_resource type="StyleBox" uid="uid://dcdsiuaxu3abo" path="res://art/styles/menu_item_pressed.tres" id="4_nw1pv"]
+
+[resource]
+Button/styles/focus = null
+Button/styles/hover = ExtResource("1_prp2o")
+Button/styles/hover_pressed = ExtResource("2_2ycb0")
+Button/styles/normal = ExtResource("3_6xhgq")
+Button/styles/pressed = ExtResource("4_nw1pv")

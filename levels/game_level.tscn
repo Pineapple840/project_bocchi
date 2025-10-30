@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bd357ugyjnm13"]
+[gd_scene load_steps=13 format=3 uid="uid://bd357ugyjnm13"]
 
 [ext_resource type="PackedScene" uid="uid://dibdjsg7er80y" path="res://objects/key_listener.tscn" id="1_qc6i3"]
 [ext_resource type="PackedScene" uid="uid://b8wlbdc1vyqox" path="res://levels/game_ui.tscn" id="2_sklrn"]
@@ -9,6 +9,42 @@
 [ext_resource type="Script" uid="uid://f18v8uxyqgf7" path="res://objects/bocchi_blob.gd" id="7_smvv8"]
 [ext_resource type="PackedScene" uid="uid://d0n0o15n1c0qs" path="res://objects/signals.tscn" id="8_5kejm"]
 [ext_resource type="PackedScene" uid="uid://debjkey4w0qr0" path="res://levels/pause_menu.tscn" id="9_3n7cs"]
+
+[sub_resource type="Animation" id="Animation_p4sme"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_3n7cs"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p4sme"]
+_data = {
+&"RESET": SubResource("Animation_p4sme"),
+&"fade_out": SubResource("Animation_3n7cs")
+}
 
 [node name="GameLevel" type="Node2D"]
 process_mode = 1
@@ -21,6 +57,7 @@ offset_right = 576.0
 offset_bottom = 324.0
 mouse_filter = 2
 expand = true
+bus = &"Music"
 script = ExtResource("2_wtvao")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -43,8 +80,19 @@ offset_left = -576.0
 offset_top = -324.0
 offset_right = 576.0
 offset_bottom = 324.0
+mouse_filter = 2
 volume_db = 10.0
 expand = true
+bus = &"Music"
+
+[node name="BackgroundDim" type="ColorRect" parent="FFmpegVideoStream"]
+layout_mode = 0
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
 
 [node name="BocchiBlob" parent="." instance=ExtResource("6_wtvao")]
 position = Vector2(497, 277)
@@ -77,3 +125,8 @@ key_name = "button_K"
 [node name="KeyListener6" parent="." instance=ExtResource("1_qc6i3")]
 visible = false
 key_name = "button_D"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_p4sme")
+}

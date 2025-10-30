@@ -19,6 +19,7 @@ config/windows_native_icon="res://art/icon/bocchi_blob_happy.ico"
 [autoload]
 
 Signals="*res://objects/signals.gd"
+GlobalVariables="*res://objects/global_variables.gd"
 
 [display]
 
