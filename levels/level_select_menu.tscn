@@ -1,12 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://1mxtgvaiexkg"]
+[gd_scene load_steps=11 format=3 uid="uid://1mxtgvaiexkg"]
 
 [ext_resource type="Script" uid="uid://cs4ey8ompb2ua" path="res://levels/level_select_menu.gd" id="1_s1c7m"]
 [ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="2_3tpl7"]
 [ext_resource type="Theme" uid="uid://bcfrvr77gd4rv" path="res://art/themes/menu_theme.tres" id="3_74l5h"]
 [ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_idkli"]
 [ext_resource type="Texture2D" uid="uid://wdjys7dyc0ux" path="res://art/level_select/Guitar_to_Kodoku_to_Aoihoshi_Digital_Cover_(ANXX-01133).webp" id="4_idkli"]
-[ext_resource type="ButtonGroup" uid="uid://bsxebhcyhrm76" path="res://objects/level_buttons.tres" id="4_xjdoh"]
+[ext_resource type="Texture2D" uid="uid://dh27o42m14llm" path="res://art/level_select/seishun_complex.webp" id="4_so7uw"]
+[ext_resource type="ButtonGroup" uid="uid://bsxebhcyhrm76" path="res://level_buttons.tres" id="4_xjdoh"]
 [ext_resource type="Texture2D" uid="uid://mk8urfybxsmd" path="res://art/level_select/Wasurete_Yaranai_Digital_Cover_(ANXX-01155).webp" id="5_xjdoh"]
+[ext_resource type="Texture2D" uid="uid://cg5mmvx7fghv5" path="res://art/bocchi_blobs/bocchi_blob_happy.png" id="9_74l5h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_so7uw"]
+bg_color = Color(0.8, 0.48, 0.666667, 0)
+border_width_left = 15
+border_width_top = 10
+border_width_right = 15
+border_width_bottom = 10
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 5.0
 
 [node name="LevelSelectMenu" type="Control"]
 layout_mode = 3
@@ -44,47 +58,6 @@ text = "[i]Select Song[i]"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MusicSetting" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1000, 260)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = -400
-alignment = 1
-
-[node name="GLaBP" type="Button" parent="MarginContainer/VBoxContainer/MusicSetting"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 6
-theme = ExtResource("3_74l5h")
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 16
-toggle_mode = true
-keep_pressed_outside = true
-button_group = ExtResource("4_xjdoh")
-text = "Guitar, Loneliness and
-Blue Planet (Normal)"
-icon = ExtResource("4_idkli")
-icon_alignment = 1
-vertical_icon_alignment = 0
-expand_icon = true
-text_direction = 1
-
-[node name="NeverForget" type="Button" parent="MarginContainer/VBoxContainer/MusicSetting"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 6
-theme = ExtResource("3_74l5h")
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 16
-toggle_mode = true
-keep_pressed_outside = true
-button_group = ExtResource("4_xjdoh")
-text = "Never Forget (Hard)"
-icon = ExtResource("5_xjdoh")
-icon_alignment = 1
-vertical_icon_alignment = 0
-expand_icon = true
-
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -114,7 +87,133 @@ theme_override_styles/hover = ExtResource("2_3tpl7")
 theme_override_styles/normal = ExtResource("3_idkli")
 text = "Play"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/MusicSetting/GLaBP" to="." method="_song_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/MusicSetting/NeverForget" to="." method="_song_button_pressed"]
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -147.0
+offset_right = 275.0
+offset_bottom = 147.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.635294)
+
+[node name="HScrollBar" type="ScrollContainer" parent="."]
+z_index = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -154.0
+offset_right = 275.0
+offset_bottom = 154.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_74l5h")
+theme_override_styles/panel = SubResource("StyleBoxFlat_so7uw")
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="HScrollBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+
+[node name="MusicSetting" type="HBoxContainer" parent="HScrollBar/MarginContainer"]
+z_as_relative = false
+custom_minimum_size = Vector2(800, 260)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = -100
+alignment = 1
+
+[node name="SeishunComplex" type="Button" parent="HScrollBar/MarginContainer/MusicSetting"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("3_74l5h")
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("4_xjdoh")
+text = "Seishun Complex (Easy)"
+icon = ExtResource("4_so7uw")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+text_direction = 1
+
+[node name="GLaBP" type="Button" parent="HScrollBar/MarginContainer/MusicSetting"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("3_74l5h")
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("4_xjdoh")
+text = "Guitar, Loneliness and
+Blue Planet (Normal)"
+icon = ExtResource("4_idkli")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+text_direction = 1
+
+[node name="NeverForget" type="Button" parent="HScrollBar/MarginContainer/MusicSetting"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("3_74l5h")
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("4_xjdoh")
+text = "Never Forget (Hard)"
+icon = ExtResource("5_xjdoh")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ModsButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 64.0
+offset_top = 354.0
+offset_right = 224.0
+offset_bottom = 434.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = ExtResource("2_3tpl7")
+theme_override_styles/normal = ExtResource("3_idkli")
+text = "Mods"
+
+[node name="CurrentModDisplay" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 58.0
+offset_top = 178.0
+offset_right = 233.0
+offset_bottom = 353.0
+texture = ExtResource("9_74l5h")
+expand_mode = 1
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/StartButton" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="HScrollBar/MarginContainer/MusicSetting/SeishunComplex" to="." method="_song_button_pressed"]
+[connection signal="pressed" from="HScrollBar/MarginContainer/MusicSetting/GLaBP" to="." method="_song_button_pressed"]
+[connection signal="pressed" from="HScrollBar/MarginContainer/MusicSetting/NeverForget" to="." method="_song_button_pressed"]
+[connection signal="pressed" from="ModsButton" to="." method="_on_mods_pressed"]

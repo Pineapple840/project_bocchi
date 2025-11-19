@@ -22,6 +22,8 @@ func PlayVideo(video_resource: String, video_start_time: float):
 	
 	if GlobalVariables.current_song_name == "never_forget":
 		video_player.volume_db = 10
+	elif GlobalVariables.current_song_name == "seishun_complex":
+		video_player.volume_db = 10
 	else:
 		video_player.volume_db = 0
 

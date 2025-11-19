@@ -1,9 +1,24 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bcfrvr77gd4rv"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bcfrvr77gd4rv"]
 
 [ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="1_prp2o"]
 [ext_resource type="StyleBox" uid="uid://cr84plf6q0aex" path="res://art/styles/menu_item_hvpress.tres" id="2_2ycb0"]
 [ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_6xhgq"]
 [ext_resource type="StyleBox" uid="uid://dcdsiuaxu3abo" path="res://art/styles/menu_item_pressed.tres" id="4_nw1pv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ycb0"]
+bg_color = Color(0.26208, 0.52, 0.1976, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.7, 0.361667, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prp2o"]
+border_width_bottom = 55
 
 [resource]
 Button/styles/focus = null
@@ -11,3 +26,5 @@ Button/styles/hover = ExtResource("1_prp2o")
 Button/styles/hover_pressed = ExtResource("2_2ycb0")
 Button/styles/normal = ExtResource("3_6xhgq")
 Button/styles/pressed = ExtResource("4_nw1pv")
+Panel/styles/panel = SubResource("StyleBoxFlat_2ycb0")
+ScrollContainer/styles/focus = SubResource("StyleBoxFlat_prp2o")

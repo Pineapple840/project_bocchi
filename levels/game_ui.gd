@@ -6,6 +6,7 @@ var total_note_val: float = 0.0
 var total_notes: float = 0.0
 var accuracy: float = 0.0
 var accuracy_rounded: String = ""
+var time_sum: float = 0.0
 
 
 
@@ -13,6 +14,7 @@ func _ready():
 	Signals.IncrementScore.connect(IncrementScore)
 	Signals.IncrementCombo.connect(IncrementCombo)
 	Signals.ResetCombo.connect(ResetCombo)
+	Signals.SetTimingLabel.connect(SetTimingLabel)
 	
 func IncrementScore(incr: int):
 	score += incr * combo_count
@@ -47,4 +49,8 @@ func ResetCombo():
 	%ComboLabel.text = str(combo_count) + "x"
 	
 	Signals.ChangeBocchiBlobFace.emit("sad")
+
+func SetTimingLabel(val: float):
+	time_sum += val
+	%TimingLabel.text = str(roundi(val)) + "ms\nAvg: " + str(roundi(time_sum/total_notes)) + "ms"
 	

@@ -49,3 +49,15 @@ theme_override_font_sizes/normal_font_size = 24
 text = "Accuracy: 0.00%"
 scroll_active = false
 horizontal_alignment = 2
+
+[node name="TimingLabel" type="RichTextLabel" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 584.0
+offset_right = 305.0
+offset_bottom = 648.0
+theme_override_constants/outline_size = 5
+theme_override_fonts/normal_font = ExtResource("2_tpbhn")
+theme_override_font_sizes/normal_font_size = 24
+scroll_active = false
+vertical_alignment = 2

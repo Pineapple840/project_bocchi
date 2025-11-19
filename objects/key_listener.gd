@@ -67,13 +67,17 @@ func _process(delta):
 				
 				var key_to_pop = falling_key_queue.pop_front()
 				
+				#measured in ms
+				var real_rotate_time = (1000 / key_to_pop.rotate_speed) * key_to_pop.rotating_arrow.global_rotation_degrees
+				
+				
 				if key_to_pop != null:
 					if key_to_pop.note_type == "hold" and key_to_pop.rotating_arrow.global_rotation_degrees > -50:
 						key_to_pop.move_to_ghost()
 						var ghost_distance = key_to_pop.abs_ghost_distance
 						print(ghost_distance)
 						var teleport: Vector2 = (((key_to_pop.seconds_per_degree * key_to_pop.rotating_arrow.global_rotation_degrees) / ((ghost_distance / song_jump_distance) * song_seconds_per_beat)) * ghost_distance * key_to_pop.ghost_offset_position.normalized())
-						print("teleport" + str(teleport) + str(key_to_pop.seconds_per_degree) + str(song_seconds_per_beat)) 
+						#print("teleport" + str(teleport) + str(key_to_pop.seconds_per_degree) + str(song_seconds_per_beat)) 
 						key_to_pop.position += (teleport)
 						key_to_pop.rotating_arrow.visible = false
 						current_held_note = key_to_pop
@@ -81,35 +85,39 @@ func _process(delta):
 					else:
 						hold = false
 			
-					var distance_from_pass = abs(key_to_pop.pass_threshold - key_to_pop.global_position.y)
-					print("Note" + key_name + " hit at " + str(key_to_pop.rotating_arrow.global_rotation_degrees) + " degrees")
+					#var distance_from_pass = abs(key_to_pop.pass_threshold - key_to_pop.global_position.y)
+					print("Note" + key_name + " hit at " + str(real_rotate_time) + " ms")
 					
 					#Perfect hit
-					if abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 8:
+					if abs(real_rotate_time) < 55:
 						Signals.IncrementScore.emit(300)
 						Signals.IncrementCombo.emit()
+						Signals.SetTimingLabel.emit(real_rotate_time)
 						if key_to_pop.note_type != "hold":
 							key_to_pop.queue_free()
 						score_text_value = "300"
 						
+						
 					#Great hit
-					elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 16:
+					elif abs(real_rotate_time) < 110:
 						Signals.IncrementScore.emit(100)
 						Signals.IncrementCombo.emit()
+						Signals.SetTimingLabel.emit(real_rotate_time)
 						if key_to_pop.note_type != "hold":
 							key_to_pop.queue_free()
 						score_text_value = "100"
 					
 					#OK hit
-					elif abs(key_to_pop.rotating_arrow.global_rotation_degrees) < 24:
+					elif abs(real_rotate_time) < 165:
 						Signals.IncrementScore.emit(100)
 						Signals.IncrementCombo.emit()
+						Signals.SetTimingLabel.emit(real_rotate_time)
 						if key_to_pop.note_type != "hold":
 							key_to_pop.queue_free()
 						score_text_value = "50"
 						
 					#Miss
-					elif key_to_pop.rotating_arrow.global_rotation_degrees > -50:
+					elif real_rotate_time > -344:
 						Signals.IncrementScore.emit(0)
 						Signals.ResetCombo.emit()
 						if key_to_pop.note_type != "hold":
@@ -125,25 +133,33 @@ func _process(delta):
 					st_inst.SetTextInfo(score_text_value)
 					st_inst.global_position = key_to_pop.global_position
 					
+					
 		if Input.is_action_just_released(key_name):
 			if hold and current_held_note != null:
 				var distance_from_ghost = current_held_note.position - (current_held_note.original_position + current_held_note.ghost_offset_position)
-				var abs_distance = Vector2(0, 0).distance_to(distance_from_ghost)
-				print("note " + key_name + " released at " + str(distance_from_ghost) + ", abs distance ", str(abs_distance))
+				var dotted_distance = distance_from_ghost.dot(current_held_note.ghost_offset_position.normalized())
 				
-				if abs_distance <= 12:
+				#measured in ms
+				var real_move_time = (1000 / current_held_note.move_speed) * dotted_distance
+				print("note " + key_name + " released at " + str(real_move_time) + "ms")
+				
+				
+				if abs(dotted_distance) <= 60:
 					Signals.IncrementScore.emit(300)
 					Signals.IncrementCombo.emit()
+					Signals.SetTimingLabel.emit(real_move_time)
 					score_text_value = "300"
 					
-				elif abs_distance <= 24:
+				elif abs(dotted_distance) <= 110:
 					Signals.IncrementScore.emit(100)
 					Signals.IncrementCombo.emit()
+					Signals.SetTimingLabel.emit(real_move_time)
 					score_text_value = "100"
 				
-				elif abs_distance <= 32:
+				elif abs(dotted_distance) <= 140:
 					Signals.IncrementScore.emit(50)
 					Signals.IncrementCombo.emit()
+					Signals.SetTimingLabel.emit(real_move_time)
 					score_text_value = "50"
 				
 				else:

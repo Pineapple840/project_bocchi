@@ -1,14 +1,18 @@
 extends Node2D
 
-signal LoadMainMenu()
+signal LoadMenu(menu: String)
+
+
 signal GetNoteOffset()
+
 signal ChangeCurrentSong(song_name: String)
+signal ChangeCurrentMod(mod_name: String)
 
 
 signal IncrementScore(incr: int)
-
 signal IncrementCombo()
 signal ResetCombo()
+signal SetTimingLabel(val: float)
 
 
 signal CreateFallingKey(button_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is_hold_note: bool, ghost_pos: Vector2)

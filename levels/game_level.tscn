@@ -95,7 +95,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
 [node name="BocchiBlob" parent="." instance=ExtResource("6_wtvao")]
-position = Vector2(497, 277)
+position = Vector2(497, 270)
 scale = Vector2(0.163086, 0.163086)
 script = ExtResource("7_smvv8")
 

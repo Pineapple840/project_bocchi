@@ -21,7 +21,7 @@ func _ready():
 
 
 func _on_exit_pressed() -> void:
-	Signals.LoadMainMenu.emit()
+	Signals.LoadMenu.emit("MainMenu")
 	#Signals.GetNoteOffset().connect(GetNoteOffset)
 
 

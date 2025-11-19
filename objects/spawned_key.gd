@@ -1,11 +1,17 @@
 extends Sprite2D
 
-@export var rotate_speed: float = 0.93
+# rotate speed/move speed in units/degrees per second
+@export var rotate_speed: float = 153.45
+@export var move_speed: float = 245.33
 var seconds_per_degree: float
+
 
 @export var arrow_opacity = 0.3
 
 @onready var rotating_arrow: Sprite2D = $Sprite2D
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
+
+
 var hold_ghost_key
 
 var moving_to_ghost: bool = false
@@ -31,13 +37,15 @@ var ryo_colour = Color(0.5, 0.5, 1, 1)
 var kita_colour = Color(1, 0.5, 0.5, 1)
 
 func _init():
-	#set_process(false)
+	
+	
+	
 	hold_ghost_key = preload("res://objects/hold_ghost_key.tscn")
 	
 func _process(delta):
 	seconds_per_degree = 1 / (rotate_speed / get_process_delta_time())
 	
-	$Sprite2D.global_rotation_degrees += rotate_speed * 165 * delta
+	$Sprite2D.global_rotation_degrees += rotate_speed * delta
 	
 	if $Sprite2D.global_rotation_degrees < -170:
 		half_pass = true
@@ -51,7 +59,7 @@ func _process(delta):
 		
 	if moving_to_ghost:
 		var normalised_ghost_pos = ghost_offset_position.normalized()
-		position += 245.33 * delta * normalised_ghost_pos
+		position += move_speed * delta * normalised_ghost_pos
 		
 	if position.distance_to(ghost_offset_position + original_position) < 5 and note_type == "hold":
 		passed_ghost = true
@@ -74,7 +82,12 @@ func Setup(key_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is
 	ghost_offset_position = ghost_pos
 	abs_ghost_distance = Vector2(0, 0).distance_to(ghost_offset_position)
 	
-	
+	match GlobalVariables.current_mod:
+		"bocchi":
+			%AnimationPlayer.autoplay = "fade_in"
+		"nijika":
+			%AnimationPlayer.autoplay = "sudden_mod"
+			
 	button_name = key_name
 	
 	match key_name:
