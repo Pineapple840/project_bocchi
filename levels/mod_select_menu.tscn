@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bwhtx2d7mmn2p"]
+[gd_scene load_steps=10 format=3 uid="uid://bwhtx2d7mmn2p"]
 
 [ext_resource type="Script" uid="uid://cojarfe4pkgpk" path="res://levels/mod_select_menu.gd" id="1_rjq4e"]
 [ext_resource type="ButtonGroup" uid="uid://dt7fsvt7hsbk7" path="res://mod_buttons.tres" id="2_7kopw"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://bywf5kh2g3peb" path="res://art/bocchi_blobs/nijika_blob_1.png" id="3_7kopw"]
 [ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_sb44s"]
 [ext_resource type="Theme" uid="uid://bcfrvr77gd4rv" path="res://art/themes/menu_theme.tres" id="5_bqley"]
+[ext_resource type="Texture2D" uid="uid://byndqan7w3rve" path="res://art/bocchi_blobs/ryo_blob_happy.png" id="6_gmxim"]
+[ext_resource type="Texture2D" uid="uid://jcobu1gjdh4e" path="res://art/bocchi_blobs/kita_blob_happy.png" id="7_uhhrt"]
 
 [node name="ModSelectMenu" type="Control"]
 layout_mode = 3
@@ -58,7 +60,7 @@ theme_override_constants/v_separation = 20
 columns = 2
 
 [node name="Bocchi" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
@@ -70,7 +72,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="Nijika" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
@@ -78,6 +80,30 @@ theme = ExtResource("5_bqley")
 toggle_mode = true
 button_group = ExtResource("2_7kopw")
 icon = ExtResource("3_7kopw")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Ryo" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme = ExtResource("5_bqley")
+toggle_mode = true
+button_group = ExtResource("2_7kopw")
+icon = ExtResource("6_gmxim")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Kita" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme = ExtResource("5_bqley")
+toggle_mode = true
+button_group = ExtResource("2_7kopw")
+icon = ExtResource("7_uhhrt")
 icon_alignment = 1
 expand_icon = true
 
@@ -125,4 +151,6 @@ text = "Exit"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/GridContainer/Bocchi" to="." method="_on_mod_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/GridContainer/Nijika" to="." method="_on_mod_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/GridContainer/Ryo" to="." method="_on_mod_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/GridContainer/Kita" to="." method="_on_mod_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

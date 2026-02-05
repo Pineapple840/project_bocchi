@@ -17,5 +17,13 @@ func _on_mod_button_pressed() -> void:
 			
 		"Nijika":
 			Signals.ChangeCurrentMod.emit("nijika")
-			mod_description.text = "[i]The Selfless Drummer Leader[/i]\n[b]Nijika Ijichi[/b]\n\nSudden notes"
+			mod_description.text = "[i]Selfless Drummer Leader[/i]\n[b]Nijika Ijichi[/b]\n\nSudden notes"
+			
+		"Ryo":
+			Signals.ChangeCurrentMod.emit("ryo")
+			mod_description.text = "[i]Mysterious Bassist[/i]\n[b]Ryō Yamada[/b]\n\nHidden notes"
+		
+		"Kita":
+			Signals.ChangeCurrentMod.emit("kita")
+			mod_description.text = "[i]Blinding Aura[/i]\n[b]Kita Ikuyo[/b]\n\nColour swap"
 		

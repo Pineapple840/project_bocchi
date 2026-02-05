@@ -1,3 +1,5 @@
+"Handles the video"
+
 extends Control
 
 @onready var video_player = get_node("VideoStreamPlayer2")

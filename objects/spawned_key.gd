@@ -1,3 +1,5 @@
+"""Script for the instantiated note"""
+
 extends Sprite2D
 
 # rotate speed/move speed in units/degrees per second
@@ -8,7 +10,8 @@ var seconds_per_degree: float
 
 @export var arrow_opacity = 0.3
 
-@onready var rotating_arrow: Sprite2D = $Sprite2D
+@onready var note_object: Sprite2D = $NoteObject
+@onready var rotating_arrow: Sprite2D = $NoteObject/Sprite2D
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 
@@ -43,15 +46,15 @@ func _init():
 	hold_ghost_key = preload("res://objects/hold_ghost_key.tscn")
 	
 func _process(delta):
-	seconds_per_degree = 1 / (rotate_speed / get_process_delta_time())
+	seconds_per_degree = 1 / (rotate_speed)
 	
-	$Sprite2D.global_rotation_degrees += rotate_speed * delta
+	$NoteObject/Sprite2D.global_rotation_degrees += rotate_speed * delta
 	
-	if $Sprite2D.global_rotation_degrees < -170:
+	if $NoteObject/Sprite2D.global_rotation_degrees < -170:
 		half_pass = true
 	
 	
-	if $Sprite2D.global_rotation_degrees > pass_threshold and half_pass and not moving_to_ghost:
+	if $NoteObject/Sprite2D.global_rotation_degrees > pass_threshold and half_pass and not moving_to_ghost:
 		#print($Timer.wait_time - $Timer.time_left)
 		has_passed = true
 		visible = false
@@ -59,7 +62,7 @@ func _process(delta):
 		
 	if moving_to_ghost:
 		var normalised_ghost_pos = ghost_offset_position.normalized()
-		position += move_speed * delta * normalised_ghost_pos
+		%NoteObject.position += move_speed * delta * normalised_ghost_pos
 		
 	if position.distance_to(ghost_offset_position + original_position) < 5 and note_type == "hold":
 		passed_ghost = true
@@ -75,9 +78,9 @@ func Setup(key_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is
 	
 	global_position = Vector2(x_pos, y_pos)
 	original_position = global_position
-	$Sprite2D.global_rotation_degrees = -175
+	$NoteObject/Sprite2D.global_rotation_degrees = -175
 	
-	$Sprite2D.modulate = Color(1, 1, 1, arrow_opacity)
+	$NoteObject/Sprite2D.modulate = Color(1, 1, 1, arrow_opacity)
 	
 	ghost_offset_position = ghost_pos
 	abs_ghost_distance = Vector2(0, 0).distance_to(ghost_offset_position)
@@ -87,34 +90,37 @@ func Setup(key_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is
 			%AnimationPlayer.autoplay = "fade_in"
 		"nijika":
 			%AnimationPlayer.autoplay = "sudden_mod"
-			
+		"ryo":
+			%AnimationPlayer.autoplay = "hidden_mod"
+		"kita":
+			%AnimationPlayer.autoplay = "fade_in"
 	button_name = key_name
 	
 	match key_name:
 		"button_D":
-			$KeyIndicator.add_theme_color_override("default_color", ryo_colour)
-			$KeyIndicator.text = "[center]" + "D"
+			$NoteObject/KeyIndicator.add_theme_color_override("default_color", ryo_colour)
+			$NoteObject/KeyIndicator.text = "[center]" + "D"
 		"button_F":
-			$KeyIndicator.add_theme_color_override("default_color", nijika_colour)
-			$KeyIndicator.text = "[center]" + "F"
+			$NoteObject/KeyIndicator.add_theme_color_override("default_color", nijika_colour)
+			$NoteObject/KeyIndicator.text = "[center]" + "F"
 		"button_J":
-			$KeyIndicator.add_theme_color_override("default_color", kita_colour)
-			$KeyIndicator.text = "[center]" + "J"
+			$NoteObject/KeyIndicator.add_theme_color_override("default_color", kita_colour)
+			$NoteObject/KeyIndicator.text = "[center]" + "J"
 		"button_K":
-			$KeyIndicator.add_theme_color_override("default_color", bocchi_colour)
-			$KeyIndicator.text = "[center]" + "K"
+			$NoteObject/KeyIndicator.add_theme_color_override("default_color", bocchi_colour)
+			$NoteObject/KeyIndicator.text = "[center]" + "K"
 	
 	#fade_in()
 	
 	if is_multi_note:
-		$KeyIndicator.add_theme_color_override("font_outline_color", Color(0, 0.8, 0, 1))
+		$NoteObject/KeyIndicator.add_theme_color_override("font_outline_color", Color(0, 0.8, 0, 1))
 	
 	if is_hold_note:
 		note_type = "hold"
-		$HoldIndicator.visible = true
+		$NoteObject/HoldIndicator.visible = true
 		
 	else:
-		$HoldIndicator.visible = false
+		$NoteObject/HoldIndicator.visible = false
 	
 	set_process(true)
 	

@@ -1,3 +1,5 @@
+"""Handles the icon on the bottom right which moves in time with the music"""
+
 extends Sprite2D
 
 var del = 1
@@ -11,11 +13,11 @@ var song_offset: float
 var run_once = false
 var bounce_processing = false
 
-var bocchi_happy
-var bocchi_sad
-var nijika_happy_1
-var nijika_happy_2
-var nijika_sad
+
+var happy_face
+var sad_face
+var nijika_left_drum
+var nijika_right_drum
 
 func _ready():
 	
@@ -29,15 +31,27 @@ func _ready():
 	
 	match GlobalVariables.current_mod:
 		"bocchi":
-			bocchi_happy = load("res://art/bocchi_blobs/bocchi_blob_happy.png")
-			bocchi_sad = load("res://art/bocchi_blobs/bocchi_blob_sad.png")
-			texture = bocchi_happy
+			happy_face = load("res://art/bocchi_blobs/bocchi_blob_happy.png")
+			sad_face = load("res://art/bocchi_blobs/bocchi_blob_sad.png")
+			
 		"nijika":
-			nijika_happy_1 = load("res://art/bocchi_blobs/nijika_blob_1.png")
-			nijika_happy_2 = load("res://art/bocchi_blobs/nijika_blob_2.png")
-			nijika_sad = load("res://art/bocchi_blobs/nijika_blob_sad.png")
-			texture = nijika_happy_1
-
+			
+			
+			nijika_left_drum = load("res://art/bocchi_blobs/nijika_blob_1.png")
+			nijika_right_drum = load("res://art/bocchi_blobs/nijika_blob_2.png")
+			
+			happy_face = nijika_left_drum
+			sad_face = load("res://art/bocchi_blobs/nijika_blob_sad.png")
+			
+		"ryo":
+			happy_face = load("res://art/bocchi_blobs/ryo_blob_happy.png")
+			sad_face = load("res://art/bocchi_blobs/ryo_blob_sad.png")
+			
+		"kita":
+			happy_face = load("res://art/bocchi_blobs/kita_blob_happy.png")
+			sad_face = load("res://art/bocchi_blobs/kita_blob_sad.png")
+		
+	texture = happy_face
 	
 	#bounce(song_offset + time_delay)
 	
@@ -47,13 +61,13 @@ func bounce(delay):
 	
 	if animation:
 		if GlobalVariables.current_mod == "nijika":
-			texture = nijika_happy_2
+			texture = nijika_right_drum
 		else:
 			position.y += 5
 		animation = false
 	elif current_face == "happy":
 		if GlobalVariables.current_mod == "nijika":
-			texture = nijika_happy_1
+			texture = nijika_left_drum
 		else:
 			position.y -= 5
 		animation = true
@@ -70,20 +84,15 @@ func LevelStart(video_start_time: float, seconds_per_beat: float, offset: float,
 func ChangeBocchiBlobFace(face: String):
 	match face:
 		"sad":
-			match GlobalVariables.current_mod:
-				"bocchi":
-					texture = bocchi_sad
-				"nijika":
-					texture = nijika_sad
+			texture = sad_face
 			current_face = "sad"
 		"happy":
-			match GlobalVariables.current_mod:
-				"bocchi":
-					texture = bocchi_happy
-				"nijika":
-					if texture == nijika_sad:
-						texture = nijika_happy_1
-			current_face = "happy"
+			if GlobalVariables.current_mod == "nijika":
+				if texture == sad_face:
+					texture = happy_face
+			else:
+				texture = happy_face
+				current_face = "happy"
 
 			
 	

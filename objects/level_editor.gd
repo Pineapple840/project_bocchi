@@ -1,3 +1,5 @@
+"""Handles/parses level data"""
+
 extends Node2D
 
 @onready var animation_player = get_node("../AnimationPlayer")
@@ -178,7 +180,7 @@ var level_info = {
 		"video_resource": "res://videos/guitar_loneliness_and_blue_planet.mp4",
 		"video_length_seconds": 103,
 		"bpm": 193.0,
-		"offset": 2.56,
+		"offset": 2.555,
 		"default_jump_distance": 90.0,
 		"note_list": [
 			#Info for each note:

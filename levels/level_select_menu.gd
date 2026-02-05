@@ -37,5 +37,9 @@ func ChangeModDisplay(mod_name):
 			current_mod_display.texture = load("res://art/bocchi_blobs/bocchi_blob_happy.png")
 		"nijika":
 			current_mod_display.texture = load("res://art/bocchi_blobs/nijika_blob_1.png")
+		"ryo":
+			current_mod_display.texture = load("res://art/bocchi_blobs/ryo_blob_happy.png")
+		"kita":
+			current_mod_display.texture = load("res://art/bocchi_blobs/kita_blob_happy.png")
 			
 		

@@ -1,3 +1,5 @@
+"""Responsible for handling input and spawning notes, which are added and removed from a queue."""
+
 extends Sprite2D
 
 @onready var falling_key = preload("res://objects/spawned_key.tscn")
@@ -20,7 +22,7 @@ var ok_press_score: float = 20
 
 var current_held_note: Sprite2D
 var ghost_key_to_pop: Sprite2D
-var hold: bool
+var in_hold_state: bool
 
 var song_seconds_per_beat: float
 var song_jump_distance: float
@@ -37,28 +39,24 @@ func _ready():
 func _process(delta):
 	
 	
-	if falling_key_queue.size() > 0 or hold:
+	if falling_key_queue.size() > 0 or in_hold_state:
 		
 		var score_text_value: String = ""
 		
-		if not hold:
+		if not in_hold_state:
 			if falling_key_queue.front().has_passed:
 				var key_to_pop = falling_key_queue.pop_front()
 				
 				score_text_value = "X"
 				Signals.IncrementScore.emit(0)
 				Signals.ResetCombo.emit()
-				if key_to_pop.note_type != "hold":
-					key_to_pop.queue_free()
+				KillKey(key_to_pop)
 				
 				var st_inst = score_text.instantiate()
 				get_tree().get_root().call_deferred("add_child", st_inst)
 				st_inst.SetTextInfo(score_text_value)
 				st_inst.global_position = key_to_pop.global_position
 				
-				if ghost_key_queue.size() > 0:
-					ghost_key_to_pop = ghost_key_queue.pop_front()
-					ghost_key_to_pop.queue_free()
 				
 			
 			
@@ -75,15 +73,14 @@ func _process(delta):
 					if key_to_pop.note_type == "hold" and key_to_pop.rotating_arrow.global_rotation_degrees > -50:
 						key_to_pop.move_to_ghost()
 						var ghost_distance = key_to_pop.abs_ghost_distance
-						print(ghost_distance)
 						var teleport: Vector2 = (((key_to_pop.seconds_per_degree * key_to_pop.rotating_arrow.global_rotation_degrees) / ((ghost_distance / song_jump_distance) * song_seconds_per_beat)) * ghost_distance * key_to_pop.ghost_offset_position.normalized())
-						#print("teleport" + str(teleport) + str(key_to_pop.seconds_per_degree) + str(song_seconds_per_beat)) 
-						key_to_pop.position += (teleport)
+						print("teleport" + str(teleport) + " " + str(key_to_pop.seconds_per_degree) + " " + str(song_seconds_per_beat)) 
+						key_to_pop.note_object.position += (teleport)
 						key_to_pop.rotating_arrow.visible = false
 						current_held_note = key_to_pop
-						hold = true
+						in_hold_state = true
 					else:
-						hold = false
+						in_hold_state = false
 			
 					#var distance_from_pass = abs(key_to_pop.pass_threshold - key_to_pop.global_position.y)
 					print("Note" + key_name + " hit at " + str(real_rotate_time) + " ms")
@@ -131,12 +128,12 @@ func _process(delta):
 					var st_inst = score_text.instantiate()
 					get_tree().get_root().call_deferred("add_child", st_inst)
 					st_inst.SetTextInfo(score_text_value)
-					st_inst.global_position = key_to_pop.global_position
+					st_inst.global_position = key_to_pop.note_object.global_position
 					
 					
 		if Input.is_action_just_released(key_name):
-			if hold and current_held_note != null:
-				var distance_from_ghost = current_held_note.position - (current_held_note.original_position + current_held_note.ghost_offset_position)
+			if in_hold_state and current_held_note != null:
+				var distance_from_ghost = current_held_note.note_object.position - current_held_note.ghost_offset_position
 				var dotted_distance = distance_from_ghost.dot(current_held_note.ghost_offset_position.normalized())
 				
 				#measured in ms
@@ -167,15 +164,16 @@ func _process(delta):
 					Signals.ResetCombo.emit()
 					score_text_value = "X"
 					
-				current_held_note.queue_free()
+				KillKey(current_held_note)
 				var st_inst = score_text.instantiate()
 				get_tree().get_root().call_deferred("add_child", st_inst)
 				st_inst.SetTextInfo(score_text_value)
 				st_inst.global_position = current_held_note.global_position
 				
-				if ghost_key_queue.size() > 0:
-					ghost_key_to_pop = ghost_key_queue.pop_front()
-					ghost_key_to_pop.queue_free()
+				#if ghost_key_queue.size() > 0:
+					#KillGhost(key_name)
+				
+				in_hold_state = false
 		
 
 
@@ -187,9 +185,9 @@ func CreateFallingKey(button_name: String, x_pos: float, y_pos: float, is_multi_
 		
 		if is_hold_note:
 			var hold_ghost_key_inst = hold_ghost_key.instantiate()
-			get_tree().get_root().call_deferred("add_child", hold_ghost_key_inst)
+			fk_inst.call_deferred("add_child", hold_ghost_key_inst)
 			
-			ghost_pos = fk_inst.position + ghost_pos
+			#ghost_pos = fk_inst.position + ghost_pos
 			hold_ghost_key_inst.Setup(key_name, ghost_pos)
 			
 			ghost_key_queue.push_back(hold_ghost_key_inst)
@@ -201,6 +199,11 @@ func KillGhost(button_name: String):
 	if ghost_key_queue.size() > 0 and button_name == key_name:
 		ghost_key_to_pop = ghost_key_queue.pop_front()
 		ghost_key_to_pop.queue_free()
+		
+func KillKey(key_to_pop):
+	if key_to_pop.note_type == "hold":
+		KillGhost(key_name)
+	key_to_pop.queue_free()
 		
 func LevelStart(video_start_time: float, seconds_per_beat: float, offset: float, jump_distance: float):
 	song_seconds_per_beat = seconds_per_beat

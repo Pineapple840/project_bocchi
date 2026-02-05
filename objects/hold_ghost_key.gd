@@ -1,7 +1,15 @@
+"""Handles the ghost key that spawns with hold notes"""
+
 extends Sprite2D
 
 func Setup(key_name: String, ghost_pos: Vector2):
 	position = ghost_pos
+	
+	match GlobalVariables.current_mod:
+		"bocchi":
+			%AnimationPlayer.autoplay = "fade_in"
+		"nijika":
+			%AnimationPlayer.autoplay = "sudden_mod"
 	
 	match key_name:
 		'button_D':
@@ -15,6 +23,6 @@ func Setup(key_name: String, ghost_pos: Vector2):
 			
 func _ready():
 	#backup in case it is not removed. I know, I am good at programming right?
-	#await get_tree().create_timer(5).timeout
-	#queue_free()
-	pass
+	await get_tree().create_timer(5).timeout
+	print("ghost didn't die")
+	queue_free()
