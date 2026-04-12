@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b155cre0kd0g6"]
+[gd_scene load_steps=20 format=3 uid="uid://b155cre0kd0g6"]
 
 [ext_resource type="FontFile" uid="uid://dve3sf8u41wa3" path="res://fonts/poppins.black.ttf" id="1_0ettg"]
 [ext_resource type="Script" uid="uid://d2dy3ubge7iqj" path="res://levels/main_menu.gd" id="1_duh7t"]
@@ -11,10 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://ojk6fj6mwx58" path="res://art/main_menu/Screenshot 2025-09-01 165430.png" id="8_lppu5"]
 [ext_resource type="Texture2D" uid="uid://d28gq3ulu85h6" path="res://art/main_menu/Screenshot 2025-09-01 170519.png" id="9_6xkr4"]
 [ext_resource type="Texture2D" uid="uid://c1ardyftqummg" path="res://art/main_menu/Screenshot 2025-09-01 163435.png" id="9_ofye2"]
+[ext_resource type="Theme" uid="uid://bcfrvr77gd4rv" path="res://art/themes/menu_theme.tres" id="9_t74b8"]
 [ext_resource type="Texture2D" uid="uid://8oxvcvf8ud20" path="res://art/main_menu/Screenshot 2025-09-01 170820.png" id="10_lppu5"]
 [ext_resource type="PackedScene" uid="uid://dpgreie0r3oh5" path="res://levels/options_menu.tscn" id="11_lppu5"]
 [ext_resource type="PackedScene" uid="uid://1mxtgvaiexkg" path="res://levels/level_select_menu.tscn" id="12_6xkr4"]
 [ext_resource type="PackedScene" uid="uid://bwhtx2d7mmn2p" path="res://levels/mod_select_menu.tscn" id="15_w3h5g"]
+[ext_resource type="PackedScene" uid="uid://guwo4fy7yxx1" path="res://levels/how_to_play_menu.tscn" id="16_maniu"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_6xkr4"]
 
@@ -85,6 +87,7 @@ expand_icon = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 10
+theme = ExtResource("9_t74b8")
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 30
 theme_override_styles/hover_pressed_mirrored = ExtResource("4_s01ir")
@@ -107,7 +110,7 @@ theme_override_styles/hover_pressed_mirrored = ExtResource("4_s01ir")
 theme_override_styles/hover = ExtResource("4_nwbki")
 theme_override_styles/pressed = ExtResource("6_w3h5g")
 theme_override_styles/normal = ExtResource("6_pppj1")
-text = "Extras"
+text = "How to Play"
 icon = ExtResource("10_lppu5")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -164,7 +167,11 @@ visible = false
 layout_mode = 1
 mod_buttons = SubResource("ButtonGroup_w3h5g")
 
+[node name="HowToPlayMenu" parent="." instance=ExtResource("16_maniu")]
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="MainMenuItems/HBoxContainer2/StartGame" to="." method="_start_pressed"]
 [connection signal="pressed" from="MainMenuItems/HBoxContainer2/Options" to="." method="_options_pressed"]
-[connection signal="pressed" from="MainMenuItems/HBoxContainer2/Extras" to="." method="_extras_pressed"]
+[connection signal="pressed" from="MainMenuItems/HBoxContainer2/Extras" to="." method="_how_to_play_pressed"]
 [connection signal="pressed" from="MainMenuItems/HBoxContainer2/CloseGame" to="." method="_close_game_pressed"]

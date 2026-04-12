@@ -39,9 +39,18 @@ var nijika_colour = Color(1, 1, 0.4, 1)
 var ryo_colour = Color(0.5, 0.5, 1, 1)
 var kita_colour = Color(1, 0.5, 0.5, 1)
 
+var bocchi_random = Color.from_hsv(randf(), 0.9, 1)
+var nijika_random = Color.from_hsv(randf(), 0.9, 1)
+var ryo_random = Color.from_hsv(randf(), 0.9, 1)
+var kita_random = Color.from_hsv(randf(), 0.9, 1)
+
 func _init():
 	
-	
+	if GlobalVariables.current_mod == "kita":
+		bocchi_colour = bocchi_random
+		nijika_colour = nijika_random
+		ryo_colour = ryo_random
+		kita_colour = kita_random
 	
 	hold_ghost_key = preload("res://objects/hold_ghost_key.tscn")
 	
@@ -126,6 +135,7 @@ func Setup(key_name: String, x_pos: float, y_pos: float, is_multi_note: bool, is
 	
 func move_to_ghost():
 	moving_to_ghost = true
+
 	
 
 	

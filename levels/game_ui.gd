@@ -15,6 +15,7 @@ func _ready():
 	Signals.IncrementCombo.connect(IncrementCombo)
 	Signals.ResetCombo.connect(ResetCombo)
 	Signals.SetTimingLabel.connect(SetTimingLabel)
+	Signals.SongEnded.connect(SongEnded)
 	
 func IncrementScore(incr: int):
 	score += incr * combo_count
@@ -54,3 +55,5 @@ func SetTimingLabel(val: float):
 	time_sum += val
 	%TimingLabel.text = str(roundi(val)) + "ms\nAvg: " + str(roundi(time_sum/total_notes)) + "ms"
 	
+func SongEnded():
+	GlobalVariables.score_data = {"score": score, "accuracy": accuracy}

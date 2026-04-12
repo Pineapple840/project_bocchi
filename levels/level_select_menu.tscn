@@ -70,6 +70,7 @@ custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
+theme = ExtResource("3_74l5h")
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 32
 theme_override_styles/hover = ExtResource("2_3tpl7")
@@ -81,10 +82,12 @@ custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
+theme = ExtResource("3_74l5h")
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 32
 theme_override_styles/hover = ExtResource("2_3tpl7")
 theme_override_styles/normal = ExtResource("3_idkli")
+disabled = true
 text = "Play"
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -96,7 +99,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -275.0
 offset_top = -147.0
-offset_right = 275.0
+offset_right = 453.0
 offset_bottom = 147.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -112,7 +115,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -275.0
 offset_top = -154.0
-offset_right = 275.0
+offset_right = 465.0
 offset_bottom = 154.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -128,10 +131,10 @@ theme_override_constants/margin_top = 8
 
 [node name="MusicSetting" type="HBoxContainer" parent="HScrollBar/MarginContainer"]
 z_as_relative = false
-custom_minimum_size = Vector2(800, 260)
+custom_minimum_size = Vector2(700, 260)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/separation = -100
+theme_override_constants/separation = 0
 alignment = 1
 
 [node name="SeishunComplex" type="Button" parent="HScrollBar/MarginContainer/MusicSetting"]
@@ -144,7 +147,8 @@ theme_override_font_sizes/font_size = 16
 toggle_mode = true
 keep_pressed_outside = true
 button_group = ExtResource("4_xjdoh")
-text = "Seishun Complex (Easy)"
+text = "Seishun Complex
+(Normal)"
 icon = ExtResource("4_so7uw")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -162,7 +166,7 @@ toggle_mode = true
 keep_pressed_outside = true
 button_group = ExtResource("4_xjdoh")
 text = "Guitar, Loneliness and
-Blue Planet (Normal)"
+Blue Planet (Hard)"
 icon = ExtResource("4_idkli")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -179,7 +183,8 @@ theme_override_font_sizes/font_size = 16
 toggle_mode = true
 keep_pressed_outside = true
 button_group = ExtResource("4_xjdoh")
-text = "Never Forget (Hard)"
+text = "Never Forget 
+(Insane)"
 icon = ExtResource("5_xjdoh")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -195,6 +200,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+theme = ExtResource("3_74l5h")
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 32
 theme_override_styles/hover = ExtResource("2_3tpl7")

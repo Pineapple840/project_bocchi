@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://guwo4fy7yxx1"]
+
+[ext_resource type="Script" uid="uid://wqpuillebchw" path="res://levels/how_to_play_menu.gd" id="1_4wpje"]
+[ext_resource type="Theme" uid="uid://bcfrvr77gd4rv" path="res://art/themes/menu_theme.tres" id="2_3jt6v"]
+[ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="2_m2ce6"]
+[ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_3jt6v"]
+[ext_resource type="Texture2D" uid="uid://bm4sutcn87p7q" path="res://art/tutorial_image.png" id="4_fd1cd"]
+
+[node name="HowToPlayMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4wpje")
+
+[node name="ExitButton" type="Button" parent="."]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -155.0
+offset_top = 191.0
+offset_right = 145.0
+offset_bottom = 291.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme = ExtResource("2_3jt6v")
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = ExtResource("2_m2ce6")
+theme_override_styles/normal = ExtResource("3_3jt6v")
+text = "Exit"
+
+[node name="TutorialImage" type="Sprite2D" parent="."]
+position = Vector2(0, -70)
+scale = Vector2(1.55517, 1.55517)
+texture = ExtResource("4_fd1cd")
+
+[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]

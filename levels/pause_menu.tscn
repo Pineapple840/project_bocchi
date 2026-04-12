@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://debjkey4w0qr0"]
+[gd_scene load_steps=5 format=3 uid="uid://debjkey4w0qr0"]
 
 [ext_resource type="Script" uid="uid://ba7e8mgmfqkrn" path="res://levels/pause_menu.gd" id="1_e7fsp"]
 [ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="2_3jqdk"]
+[ext_resource type="Theme" uid="uid://bcfrvr77gd4rv" path="res://art/themes/menu_theme.tres" id="2_uxnw6"]
 [ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_uxnw6"]
 
 [node name="PauseMenu" type="Control"]
@@ -50,6 +51,7 @@ alignment = 1
 z_index = 3
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("2_uxnw6")
 theme_override_styles/hover = ExtResource("2_3jqdk")
 theme_override_styles/normal = ExtResource("3_uxnw6")
 text = "Resume"
@@ -58,6 +60,7 @@ text = "Resume"
 z_index = 3
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("2_uxnw6")
 theme_override_styles/hover = ExtResource("2_3jqdk")
 theme_override_styles/normal = ExtResource("3_uxnw6")
 text = "Restart level"
@@ -66,6 +69,7 @@ text = "Restart level"
 z_index = 3
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("2_uxnw6")
 theme_override_styles/hover = ExtResource("2_3jqdk")
 theme_override_styles/normal = ExtResource("3_uxnw6")
 text = "Exit to menu"

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpgreie0r3oh5"]
+[gd_scene load_steps=5 format=3 uid="uid://dpgreie0r3oh5"]
 
 [ext_resource type="Script" uid="uid://ylgqnsbip65y" path="res://levels/options_menu.gd" id="1_068ri"]
 [ext_resource type="StyleBox" uid="uid://caqi86enb085s" path="res://art/styles/menu_item_hover.tres" id="2_igs5e"]
+[ext_resource type="Theme" uid="uid://bcfrvr77gd4rv" path="res://art/themes/menu_theme.tres" id="2_w88fy"]
 [ext_resource type="StyleBox" uid="uid://cfcua5qkttvsx" path="res://art/styles/menu_item.tres" id="3_w88fy"]
 
 [node name="OptionsMenu" type="Control"]
@@ -144,6 +145,7 @@ custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
+theme = ExtResource("2_w88fy")
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 32
 theme_override_styles/hover = ExtResource("2_igs5e")

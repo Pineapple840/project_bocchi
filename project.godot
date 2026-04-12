@@ -10,11 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Rhythm game"
+config/name="Project Kessoku"
 run/main_scene="uid://b155cre0kd0g6"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
-config/windows_native_icon="res://art/icon/bocchi_blob_happy.ico"
+config/windows_native_icon="res://art/icon/app_icon.ico"
 
 [autoload]
 
@@ -61,3 +61,5 @@ button_ESC={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_s3tc_bptc=true
+textures/vram_compression/import_etc2_astc=true

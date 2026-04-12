@@ -21,7 +21,7 @@ var level_info = {
 		"video_resource": "res://videos/wasurete_yaranai.mp4",
 		"video_length_seconds": 142,
 		"bpm": 184.0,
-		"offset": 0.722,
+		"offset": 0.712,
 		"default_jump_distance": 80.0,
 		"note_list": [
 			#Info for each note:
@@ -121,7 +121,7 @@ var level_info = {
 [257, -14.036, 'K', 1.03078, 'M'], [257, 90, 'J', 0.5, 'M'], [258, 30, 'F'], [258.5, -60, 'J', 0.5, 'M'], [258.5, -90, 'K', 0.5, 'M'], [259.5, 0, 'K'], [260.5, 30, 'J', 1, 'M'], [260.5, 90, 'F', 0.5, 'M'],
 [261.5, 30, 'D'], [262, 60, 'J'], [262.5, 90, 'F'], [263, 120, 'D'], [264, 120, 'D'],
 [265, -165.94, 'J', 1.03078, 'M'], [265, 90, 'F', 0.5, 'M'], [265.5, 150, 'D'], [266, -150, 'F'], [266.5, 135, 'D', 0.7071, 'M'], [266.5, -90, 'J', 1, 'M'], [267.5, 180, 'J'], [268.5, 153.435, 'F', 1.11803, 'M'], [268.5, -90, 'K', 1, 'M'],
-[269.5, 135, 'F', 1.4142], [270, -170, 'F'], [270.5, -160, 'F'],
+[269.5, 135, 'F', 1.4142], [270, -170, 'F'], [270.5, -160, 'F'], [271.5, -60, 'D'], [272, -60, 'D'],
 
 [273, -60, 'J'], [273.333, -55, 'F'], [273.667, -50, 'J'], [274, -45, 'F'], [274.333, -40, 'J'], [274.667, -35, 'F'], [275, -30, 'K'], [275.333, -25, 'D'], [275.667, -20, 'K'], [276, -15, 'D'], [276.333, -10, 'K'], [276.667, -5, 'D'],
 [277, 0, 'J'], [277.5, 0, 'J'], [278, 0, 'K'], [278.5, 0, 'K'],
@@ -403,6 +403,9 @@ var bpm: float
 var seconds_per_beat: float
 var jump_distance
 
+var horizontal_invert = 1
+var vertical_invert = 1
+
 
 	
 func _ready():
@@ -429,6 +432,11 @@ func _ready():
 	current_seconds_per_beat = seconds_per_beat
 	current_offset = offset
 	current_jump_distance = jump_distance
+	
+	if GlobalVariables.current_mod in ["nijika", "kita"]:
+		horizontal_invert = -1
+	if GlobalVariables.current_mod in ["ryo", "kita"]:
+		vertical_invert = -1
 	
 	await get_tree().create_timer(video_length_seconds - video_start_time, false).timeout
 	EndSong()
@@ -495,8 +503,8 @@ func VideoStarted():
 				
 				
 		
-		var x_pos = last_x + jump_for_note * cos((note[1] * PI) / 180) * time_since_last_beat
-		var y_pos = last_y + jump_for_note * sin((note[1] * PI) / 180) * time_since_last_beat
+		var x_pos = last_x + jump_for_note * cos((note[1] * PI) / 180) * time_since_last_beat * horizontal_invert
+		var y_pos = last_y + jump_for_note * sin((note[1] * PI) / 180) * time_since_last_beat * vertical_invert
 		
 		var ghost_pos: Vector2 = Vector2(0, 0)
 		
@@ -507,7 +515,7 @@ func VideoStarted():
 				
 			if str(note[4]) == 'H' or str(note[4]) == 'MH':
 				is_hold_note = true
-				ghost_pos = Vector2(note[6] * cos((note[5] * PI / 180)) * jump_for_note, note[6] * sin((note[5]) * PI / 180) * jump_for_note)
+				ghost_pos = Vector2(note[6] * cos((note[5] * PI / 180)) * jump_for_note * horizontal_invert, note[6] * sin((note[5]) * PI / 180) * jump_for_note * vertical_invert)
 		
 		last_x = x_pos
 		last_y = y_pos
@@ -529,6 +537,7 @@ func ReceiveVideoDesync(difference: float):
 	video_desync = difference
 	
 func EndSong():
+	Signals.SongEnded.emit()
 	animation_player.play("fade_out")
 	await get_tree().create_timer(0.5, false).timeout
 	get_tree().change_scene_to_file("res://levels/song_end_screen.tscn")

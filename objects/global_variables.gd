@@ -3,6 +3,11 @@ extends Node2D
 var current_song_name = ""
 var current_mod = "bocchi"
 
+var score_data = {
+	"score": 0,
+	"accuracy" : 0
+}
+
 func _ready():
 	Signals.ChangeCurrentSong.connect(ChangeCurrentSong)
 	Signals.ChangeCurrentMod.connect(ChangeCurrentMod)

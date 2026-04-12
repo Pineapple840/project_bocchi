@@ -143,6 +143,7 @@ custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
+theme = ExtResource("5_bqley")
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 32
 theme_override_styles/hover = ExtResource("2_tdx7s")

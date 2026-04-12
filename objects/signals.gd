@@ -29,3 +29,6 @@ signal VideoStarted()
 signal SendVideoDesync(difference: float)
 
 signal ChangeBocchiBlobFace(face: String)
+
+signal SongEnded()
+signal TransmitScoreData(score: String, accuracy: String)

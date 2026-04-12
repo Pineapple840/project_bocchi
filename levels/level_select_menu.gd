@@ -31,6 +31,8 @@ func _song_button_pressed() -> void:
 			print("'Never Forget' Selected")
 			Signals.ChangeCurrentSong.emit("never_forget")
 			
+	$MarginContainer/VBoxContainer/HBoxContainer/StartButton.disabled = false
+			
 func ChangeModDisplay(mod_name):
 	match mod_name:
 		"bocchi":

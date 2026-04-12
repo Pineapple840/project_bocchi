@@ -61,7 +61,8 @@ func bounce(delay):
 	
 	if animation:
 		if GlobalVariables.current_mod == "nijika":
-			texture = nijika_right_drum
+			if current_face == "happy":
+				texture = nijika_right_drum
 		else:
 			position.y += 5
 		animation = false
@@ -92,7 +93,8 @@ func ChangeBocchiBlobFace(face: String):
 					texture = happy_face
 			else:
 				texture = happy_face
-				current_face = "happy"
+				
+			current_face = "happy"
 
 			
 	
